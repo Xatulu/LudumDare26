@@ -22,10 +22,7 @@ public class IntroGameState extends BasicGameState {
     Text Intro0 = null;
     Text Intro1 = null;
 
-    SpriteSheet sheet = new SpriteSheet("res/SpriteSheet.png", 16, 16);
-
-    private enum STATES { START_INTRO_STATE }
-    private STATES currentState = null;
+    SpriteSheet sheet = null;
 
     public IntroGameState(int stateID) {
         this.stateID = stateID;
@@ -34,7 +31,6 @@ public class IntroGameState extends BasicGameState {
     @Override
     public void enter(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException{
         super.enter(gameContainer, stateBasedGame);
-        currentState = STATES.START_INTRO_STATE;
     }
 
     @Override
@@ -45,7 +41,7 @@ public class IntroGameState extends BasicGameState {
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         font = new AngelCodeFont("res/font.fnt", "res/font_0.png");
-        sheet =
+        sheet = new SpriteSheet("res/SpriteSheet.png", 16, 16);
         Intro0 = new Text("This is the void.", font);
         Intro1 = new Text(Intro0.getX(), Intro0.getY()+50, "It's a pretty lonely place.", font);
     }
@@ -56,15 +52,15 @@ public class IntroGameState extends BasicGameState {
         graphics.setColor(Color.black);
         graphics.drawString(Intro0.getText(), Intro0.getX(), Intro0.getY());
         graphics.drawString(Intro1.getText(), Intro1.getX(), Intro1.getY());
-        graphics.drawImage(sheet.getSprite(0,0), 100, 100);
+        graphics.drawImage(sheet.getSprite(0,0), 100, 100); //TODO Remove
     }
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-        while(Intro0.getY()>50){
-            Intro0.setY((int) (Intro0.getY() - i * 0.1));
-            Intro1.setY((int) (Intro1.getY() - i * 0.1));
+            while(Intro0.getY()>50){
+                Intro0.setY((int) (Intro0.getY() - i * 0.1));
+                Intro1.setY((int) (Intro1.getY() - i * 0.1));
+            }
         }
-
+    //TODO Switch to GamePlayState
     }
-}
