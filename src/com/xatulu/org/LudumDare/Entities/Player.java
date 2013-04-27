@@ -73,5 +73,6 @@ public class Player {
     public void runin(int i) {
         moving = true;
         this.setX((int) (this.getX() + i * 0.2));
+
     }
 }
