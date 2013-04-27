@@ -7,24 +7,29 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
+import java.util.Random;
+
 /**
  * User: Patrick
  * Date: 27.04.13
  * Time: 05:06
  */
-public class GameplayState extends BasicGameState {
+public class GameplayState extends BasicGameState{
 
     private int stateID = 1;
-    private int elapsedTime = 0;
+    private int elapsedTime = 0, jumptimer = 0;
     private int offsetX = 0;
+    int music_track = 0;
     int offsetY = 0;
     boolean music_playing = false;
     private TiledMap testmap;
     private boolean[][] blocked;
     private static final int SIZE = 32;
+    Random random = new Random(System.currentTimeMillis());
 
-    Music level1 = null;
+    Music[] bgm = null;
 
+    Sound jump = null;
 
     private Player player = null;
 
@@ -55,9 +60,17 @@ public class GameplayState extends BasicGameState {
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         font = new AngelCodeFont("res/font.fnt", "res/font_0.png");
         sheet = new SpriteSheet("res/SpriteSheet.png", 32, 32);
-        player = new Player(-32, LudumDare.HEIGHT - 160, sheet.getSprite(0, 0), sheet.getSprite(1, 0), new Animation(new Image[]{sheet.getSprite(0, 0), sheet.getSprite(2, 0)}, 250), new Animation(new Image[]{sheet.getSprite(1, 0), sheet.getSprite(3, 0)}, 250));
-        level1 = new Music("res/level1.ogg");
+        player = new Player(-32, LudumDare.HEIGHT - 128, sheet.getSprite(0, 0), sheet.getSprite(1, 0), new Animation(new Image[]{sheet.getSprite(0, 0), sheet.getSprite(2, 0)}, 250), new Animation(new Image[]{sheet.getSprite(1, 0), sheet.getSprite(3, 0)}, 250));
+        bgm = new Music[]{
+                new Music("res/level1.ogg"),
+                new Music("res/level2.ogg"),
+                new Music("res/level3.ogg"),
+                new Music("res/level4.ogg"),
+                new Music("res/level5.ogg")
+        };
         testmap = new TiledMap("res/testmap.tmx");
+        jump = new Sound("res/jump.wav");
+
         buildCollision();
     }
 
@@ -97,12 +110,9 @@ public class GameplayState extends BasicGameState {
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
         elapsedTime += i;
+        startMusic();
         switch (currentState) {
             case START_INTRO_STATE:
-                if (!music_playing) {
-                    level1.loop();
-                    music_playing = true;
-                }
                 if (elapsedTime >= 2000) {
                     elapsedTime = 0;
                     currentState = STATES.INTRO_STATE;
@@ -110,7 +120,7 @@ public class GameplayState extends BasicGameState {
                 break;
             case INTRO_STATE:
                 moveIntro(i);
-                if (elapsedTime >= 10000) {
+                if (elapsedTime >= 8000) {
                     elapsedTime = 0;
                     currentState = STATES.INTRODUCE_PLAYER_STATE;
                 }
@@ -124,59 +134,57 @@ public class GameplayState extends BasicGameState {
                 } else {
                     player.setMoving(false);
                 }
-                if (elapsedTime >= 5000) {
+                if (elapsedTime >= 2000) {
                     elapsedTime = 0;
                     currentState = STATES.LEVEL1_STATE;
                 }
                 break;
             case LEVEL1_STATE:
+                jumptimer += i;
                 Input input = gameContainer.getInput();
-                if (input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D)) {
+                if (input.isKeyDown(Input.KEY_D)) {
                     player.setMoving(true);
                     player.setDir(1);
                     player.setLastdir(1);
                     if (!isBlocked(player.getX() + offsetX - i * 0.3f, player.getY() - offsetY)) {
                         offsetX -= i * 0.3;
                     }
-                } else if (input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_A)) {
+                }
+                if (input.isKeyDown(Input.KEY_A)) {
                     player.setMoving(true);
                     player.setDir(-1);
                     player.setLastdir(-1);
-                    if (!isBlocked(player.getX() - offsetX + i * 0.3f, player.getY() - offsetY)) {
+                    if (!isBlocked(player.getX() - offsetX - i * 0.3f, player.getY() - offsetY)) {
                         offsetX += i * 0.3;
                     }
                     player.setLastdir(-1);
-                } else if (input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W)) {
-                    if (!isBlocked(player.getX() - offsetX, player.getY() - offsetY - i * 0.3f)) {
-                        offsetY += i * 0.3;
+                }
+                if (input.isKeyDown(Input.KEY_W) && !player.isInAir() && (LudumDare.HEIGHT - player.getY() < 250)) {
+                    player.setMoving(true);                                                    //TODO DoubleJumps entfernen
+
+                    if (!isBlocked(player.getX() - offsetX, player.getY() - offsetY - i * 0.6f)) {
+                        player.setY((int) ((double) player.getY() - i * 0.6));
                     }
-                } else if ((input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W) && (input.isKeyDown(Input.KEY_LEFT) || input.isKeyDown(Input.KEY_A)))) {
-                    player.setMoving(true);
-                    player.setDir(-1);
-                    if (!isBlocked(player.getX() - offsetX + i * 0.3f, player.getY() - offsetY)) {
-                        offsetX += i * 0.3;
+                    if (LudumDare.HEIGHT - player.getY() > 220) {
+                        player.setInAir(true);
+                        jump.play();
                     }
-                    if (!isBlocked(player.getX() - offsetX, player.getY() - offsetY - i * 0.3f)) {
-                        offsetY += i * 0.3;
-                    }
-                } else if (input.isKeyDown(Input.KEY_UP) || input.isKeyDown(Input.KEY_W) && (input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D))) {
-                    player.setMoving(true);
-                    player.setDir(1);
-                    player.setLastdir(1);
-                    if (!isBlocked(player.getX() + offsetX - i * 0.3f, player.getY() - offsetY)) {
-                        offsetX -= i * 0.3;
-                    }
-                    if (!isBlocked(player.getX() - offsetX, player.getY() - offsetY - i * 0.3f)) {
-                        offsetY += i * 0.3;
-                    }
-                } else {
-                    player.setMoving(false);
-                    if (!isBlocked(player.getX() - offsetX, player.getY() - offsetY + SIZE + i * 0.3f)) {
-                        offsetY -= i * 0.3;
-                    }
+                }
+                if (LudumDare.HEIGHT - player.getY() < 135) {
+                    player.setInAir(false);
+                }
+                if (!isBlocked(player.getX() - offsetX, player.getY() - offsetY + SIZE + i * 0.3f)) {
+                    player.setY((int) ((double) player.getY() + i * 0.3));
                 }
             case EXIT_STATE:
                 break;
+        }
+    }
+
+    private void startMusic() {
+        if(!music_playing){
+            bgm[random.nextInt(bgm.length-1)].loop();
+            music_playing=true;
         }
     }
 

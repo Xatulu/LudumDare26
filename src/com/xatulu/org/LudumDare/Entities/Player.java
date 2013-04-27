@@ -15,6 +15,9 @@ public class Player {
 
     private int lastdir = 1;
     private boolean moving = false;
+    private boolean inAir = false;
+
+
 
     public Image right;
     public Image left;
@@ -74,5 +77,12 @@ public class Player {
         moving = true;
         this.setX((int) (this.getX() + i * 0.2));
 
+    }
+    public boolean isInAir() {
+        return inAir;
+    }
+
+    public void setInAir(boolean inAir) {
+        this.inAir = inAir;
     }
 }
