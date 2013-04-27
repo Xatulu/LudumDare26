@@ -20,10 +20,15 @@
     <property name="blocked" value="true"/>
    </properties>
   </tile>
+  <tile id="17">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Kachelebene 1" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjZ2BgYKcyphYYNW/UvFHz6GseG5UxB5UxAHkkAk0=
+   eJwTYmBgEKIyJgagq6fUPFLsHDVv1LzBah4x9qHnGXx2YDMPlxpqlwO0wABZ2gcJ
   </data>
  </layer>
 </map>
