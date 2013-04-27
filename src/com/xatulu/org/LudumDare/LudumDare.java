@@ -17,13 +17,9 @@ public class LudumDare extends StateBasedGame {
     public static final int GAMEPLAYSTATE = 1;
     public static final int INTROGAMESTATE = 0;
 
-    Image background = null;
-
     public LudumDare() {
         super("Minimalism");
         this.addState(new IntroGameState(INTROGAMESTATE));
-        this.addState(new GamePlayState(GAMEPLAYSTATE));
-        this.enterState(INTROGAMESTATE);
     }
 
     public static void main(String[] args) throws SlickException {
@@ -35,7 +31,6 @@ public class LudumDare extends StateBasedGame {
 
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException {
-        this.getState(GAMEPLAYSTATE).init(gameContainer, this);
         this.getState(INTROGAMESTATE).init(gameContainer, this);
     }
 }
