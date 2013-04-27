@@ -17,12 +17,16 @@ public class GameplayState extends BasicGameState {
     private int elapsedTime = 0;
     private int offsetX = 0;
     int offsetY = 0;
+    boolean music_playing = false;
+
+    Music level1 = null;
+
 
     private Player player = null;
 
     public static Font font = null;
 
-    private enum STATES {START_INTRO_STATE, INTRO_STATE, INTRODUCE_PLAYER_STATE, MAIN_GAMEPLAY_STATE, EXIT_STATE}
+    private enum STATES {START_INTRO_STATE, INTRO_STATE, INTRODUCE_PLAYER_STATE, LEVEL1_STATE, EXIT_STATE}
 
     private STATES currentState = null;
 
@@ -48,6 +52,7 @@ public class GameplayState extends BasicGameState {
         font = new AngelCodeFont("res/font.fnt", "res/font_0.png");
         sheet = new SpriteSheet("res/SpriteSheet.png", 32, 32);
         player = new Player(-32, LudumDare.HEIGHT - 90, sheet.getSprite(0, 0), sheet.getSprite(1, 0), new Animation(new Image[]{sheet.getSprite(0, 0), sheet.getSprite(2, 0)}, 250), new Animation(new Image[]{sheet.getSprite(1, 0), sheet.getSprite(3, 0)}, 250));
+        level1 = new Music("res/level1.ogg");
     }
 
     @Override
@@ -74,6 +79,10 @@ public class GameplayState extends BasicGameState {
         elapsedTime += i;
         switch (currentState) {
             case START_INTRO_STATE:
+                if (!music_playing){
+                    level1.loop();
+                    music_playing = true;
+                }
                 if (elapsedTime >= 2000) {
                     elapsedTime = 0;
                     currentState = STATES.INTRO_STATE;
@@ -98,10 +107,10 @@ public class GameplayState extends BasicGameState {
                 }       */
                 if (elapsedTime >= 2500) {
                     elapsedTime = 0;
-                    currentState = STATES.MAIN_GAMEPLAY_STATE;
+                    currentState = STATES.LEVEL1_STATE;
                 }
                 break;
-            case MAIN_GAMEPLAY_STATE:
+            case LEVEL1_STATE:
                 Input input = gameContainer.getInput();
                 if (input.isKeyDown(Input.KEY_RIGHT) || input.isKeyDown(Input.KEY_D)) {
                     player.setMoving(true);
