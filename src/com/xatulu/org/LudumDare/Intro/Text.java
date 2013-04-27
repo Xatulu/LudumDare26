@@ -4,11 +4,9 @@ import com.xatulu.org.LudumDare.LudumDare;
 import org.newdawn.slick.Font;
 
 /**
- * Created with IntelliJ IDEA.
  * User: Patrick
  * Date: 27.04.13
  * Time: 05:11
- * To change this template use File | Settings | File Templates.
  */
 public class Text {
     int x;

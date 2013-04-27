@@ -5,18 +5,14 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import java.util.ArrayList;
-
 /**
- * Created with IntelliJ IDEA.
  * User: Patrick
  * Date: 27.04.13
  * Time: 05:06
- * To change this template use File | Settings | File Templates.
  */
-public class IntroGameState extends BasicGameState {
+public class GameplayState extends BasicGameState {
 
-    private int stateID = 0;
+    private int stateID = 1;
     int elapsedTime = 0;
 
     Font font = null;
@@ -30,7 +26,7 @@ public class IntroGameState extends BasicGameState {
 
     SpriteSheet sheet = null;
 
-    public IntroGameState(int stateID) {
+    public GameplayState(int stateID) {
         this.stateID = stateID;
     }
 
