@@ -7,6 +7,7 @@
       <root url="jar://C:/LD/slick.jar!/" />
       <root url="jar://C:/LD/jogg-0.0.7.jar!/" />
       <root url="jar://C:/LD/jorbis-0.0.15.jar!/" />
+      <root url="jar://C:/LD/slick-util.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="file://C:/LD/javadoc" />

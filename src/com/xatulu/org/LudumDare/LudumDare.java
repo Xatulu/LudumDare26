@@ -24,6 +24,7 @@ public class LudumDare extends StateBasedGame {
         AppGameContainer app = new AppGameContainer(new LudumDare());
         app.setDisplayMode(WIDTH, HEIGHT, false);
         app.setVSync(true);
+        app.setShowFPS(false);
         app.start();
     }
 
