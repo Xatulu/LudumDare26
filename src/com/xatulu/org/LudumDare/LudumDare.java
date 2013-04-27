@@ -12,9 +12,10 @@ public class LudumDare extends StateBasedGame {
 
     public static final Integer WIDTH = 640;
     public static final Integer HEIGHT = 480;
-    public static final int GAMEPLAYSTATE = 1;
+    private static final int GAMEPLAYSTATE = 1;
 
-    public LudumDare() {
+
+    private LudumDare() {
         super("Minimalism");
         this.addState(new GameplayState(GAMEPLAYSTATE));
     }
