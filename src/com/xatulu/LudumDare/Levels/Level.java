@@ -13,12 +13,14 @@ public class Level {
 
     TiledMap map;
     public static boolean[][] blocked;
+    public static boolean[][] goal;
 
     public Level(TiledMap map) throws SlickException {
         this.width = map.getWidth();
         this.height = map.getHeight();
         this.map = map;
         buildCollision(width, height);
+        buildGoal(width, height);
     }
 
     void buildCollision(int width, int height) {
@@ -28,6 +30,18 @@ public class Level {
                 int tileID = map.getTileId(xAxis, yAxis, 0);
                 if (tileID == 7) {
                     blocked[xAxis][yAxis] = true;
+                }
+            }
+        }
+    }
+
+    void buildGoal(int width, int height) {
+        goal = new boolean[width][height];
+        for (int xAxis = 0; xAxis < width; xAxis++) {
+            for (int yAxis = 0; yAxis < height; yAxis++) {
+                int tileID = map.getTileId(xAxis, yAxis, 0);
+                if (tileID == 23) {
+                    goal[xAxis][yAxis] = true;
                 }
             }
         }

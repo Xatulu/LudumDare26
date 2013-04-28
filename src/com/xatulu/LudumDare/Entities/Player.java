@@ -90,6 +90,8 @@ public class Player {
             this.x = nx;
             this.y = ny;
         }
+        if (validGoal(nx, ny, offsetx, offsety, level))
+            System.out.println("JASDONGOINASFD");
     }
 
     public boolean validLocation(float nx, float ny, int offsetx, int offsety, Level level) {
@@ -113,7 +115,18 @@ public class Player {
         return true;
     }
 
+    public boolean validGoal(float nx, float ny, int offsetx, int offsety, Level level) {
+        if (isGoal(nx - offsetx + 16, ny - offsety + 16, level)) {
+            return true;
+        }
+        return false;
+    }
+
     boolean isBlocked(float x, float y, Level level) {
         return level.blocked[(int) x / Level1.SIZE][(int) y / Level1.SIZE];
+    }
+
+    boolean isGoal(float x, float y, Level level) {
+        return level.goal[(int) x / Level1.SIZE][(int) y / Level1.SIZE];
     }
 }

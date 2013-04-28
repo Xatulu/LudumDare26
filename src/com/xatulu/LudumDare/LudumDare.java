@@ -1,6 +1,7 @@
 package com.xatulu.LudumDare;
 
 import com.xatulu.LudumDare.GameStates.Dummy;
+import com.xatulu.LudumDare.GameStates.Goal;
 import com.xatulu.LudumDare.GameStates.Level1;
 import com.xatulu.LudumDare.GameStates.MainMenuState;
 import org.newdawn.slick.AppGameContainer;
@@ -20,6 +21,7 @@ public class LudumDare extends StateBasedGame {
     public static final int GAMEPLAYSTATE = 1;
     public static final int MAINMENUSTATE = 0;
     public static final int DUMMYSTATE = 2;
+    public static final int GOALSTATE = 3;
 
     public static boolean SoundOn = true;
     public static boolean MusicOn = true;
@@ -30,6 +32,7 @@ public class LudumDare extends StateBasedGame {
         this.addState(new MainMenuState());
         this.addState(new Level1());
         this.addState(new Dummy());
+        this.addState(new Goal());
         this.enterState(MAINMENUSTATE);
     }
 
@@ -46,5 +49,10 @@ public class LudumDare extends StateBasedGame {
         this.getState(MAINMENUSTATE).init(gameContainer, this);
         this.getState(GAMEPLAYSTATE).init(gameContainer, this);
         this.getState(DUMMYSTATE).init(gameContainer, this);
+        this.getState(GOALSTATE).init(gameContainer, this);
     }
 }
+
+//TODO Spieler neu zeichnen
+//TODO EndGameScreen
+//TODO Spiel fertigzeichnen
