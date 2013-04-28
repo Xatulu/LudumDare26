@@ -33,9 +33,8 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
     private Sound jump = null;
     private static Player player = null;
     private Image controls;
-    private static Input input;
     private static GameContainer gameContainer;
-    private StateBasedGame stateBasedGame;
+    private static StateBasedGame stateBasedGame;
 
     public Level1() {
         this.stateID = LudumDare.GAMEPLAYSTATE;
@@ -60,15 +59,13 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
         controls = new Image("res/graphics/controls.png");
         jump = new Sound("res/sounds/jump.wav");
         level1 = new Level(new TiledMap("res/graphics/level1.tmx"));
-        input = gameContainer.getInput();
-        this.gameContainer = gameContainer;
-        this.stateBasedGame = stateBasedGame;
+        Level1.gameContainer = gameContainer;
+        Level1.stateBasedGame = stateBasedGame;
     }
 
     public static void reinit() throws SlickException {
         SpriteSheet sheet = new SpriteSheet("res/graphics/SpriteSheet.png", 32, 32);
         player = new Player(96, 255, sheet.getSprite(0, 0), sheet.getSprite(1, 0), new Animation(new Image[]{sheet.getSprite(0, 0), sheet.getSprite(2, 0)}, 250), new Animation(new Image[]{sheet.getSprite(1, 0), sheet.getSprite(3, 0)}, 250));
-        input = gameContainer.getInput();
         offsetX = 0;
         offsetY = 0;
     }
@@ -122,6 +119,11 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
             jumpheight = 0;
         }
         updateCamera();
+        if (player.isReachedGoal()) {
+            stateBasedGame.enterState(LudumDare.GOALSTATE);
+            bgm[current_song].stop();
+            music_playing = false;
+        }
     }
 
     private void updateCamera() {
@@ -201,7 +203,7 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
             try {
                 reinit();
             } catch (SlickException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
             stateBasedGame.enterState(LudumDare.DUMMYSTATE);
         }

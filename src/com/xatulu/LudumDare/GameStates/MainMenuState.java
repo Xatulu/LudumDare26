@@ -12,12 +12,14 @@ import org.newdawn.slick.tiled.TiledMap;
  * Date: 28.04.13
  * Time: 16:13
  */
+
+//TODO MouseListener statt standard-listener
 public class MainMenuState extends BasicGameState implements KeyListener {
 
     private int stateID = 0;
     private int state = 1;
     private Music bgm;
-    private Level level;
+    public static Level level;
     private Image title;
     private boolean music_started;
     private Image[] menuOptions;
@@ -114,7 +116,7 @@ public class MainMenuState extends BasicGameState implements KeyListener {
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
         if (!music_started) {
-            bgm.play();
+            bgm.loop();
             music_started = true;
         }
         getMouseInput();
@@ -259,7 +261,7 @@ public class MainMenuState extends BasicGameState implements KeyListener {
         try {
             Level1.reinit();
         } catch (SlickException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         stateBasedGame.enterState(LudumDare.GAMEPLAYSTATE);
         select.play();

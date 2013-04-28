@@ -28,7 +28,7 @@ public class LudumDare extends StateBasedGame {
 
 
     private LudumDare() {
-        super("Minimalism");
+        super("Minimaljump");
         this.addState(new MainMenuState());
         this.addState(new Level1());
         this.addState(new Dummy());
@@ -46,13 +46,12 @@ public class LudumDare extends StateBasedGame {
 
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException {
+        this.getState(GOALSTATE).init(gameContainer, this);
         this.getState(MAINMENUSTATE).init(gameContainer, this);
         this.getState(GAMEPLAYSTATE).init(gameContainer, this);
         this.getState(DUMMYSTATE).init(gameContainer, this);
-        this.getState(GOALSTATE).init(gameContainer, this);
     }
 }
 
 //TODO Spieler neu zeichnen
-//TODO EndGameScreen
 //TODO Spiel fertigzeichnen

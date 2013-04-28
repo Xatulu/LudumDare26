@@ -19,12 +19,12 @@ public class Level {
         this.width = map.getWidth();
         this.height = map.getHeight();
         this.map = map;
-        buildCollision(width, height);
-        buildGoal(width, height);
+        blocked = buildCollision(width, height);
+        goal = buildGoal(width, height);
     }
 
-    void buildCollision(int width, int height) {
-        blocked = new boolean[width][height];
+    boolean[][] buildCollision(int width, int height) {
+        boolean[][] blocked = new boolean[width][height];
         for (int xAxis = 0; xAxis < width; xAxis++) {
             for (int yAxis = 0; yAxis < height; yAxis++) {
                 int tileID = map.getTileId(xAxis, yAxis, 0);
@@ -33,10 +33,11 @@ public class Level {
                 }
             }
         }
+        return blocked;
     }
 
-    void buildGoal(int width, int height) {
-        goal = new boolean[width][height];
+    boolean[][] buildGoal(int width, int height) {
+        boolean[][] goal = new boolean[width][height];
         for (int xAxis = 0; xAxis < width; xAxis++) {
             for (int yAxis = 0; yAxis < height; yAxis++) {
                 int tileID = map.getTileId(xAxis, yAxis, 0);
@@ -45,6 +46,7 @@ public class Level {
                 }
             }
         }
+        return goal;
     }
 
     public TiledMap getMap() {

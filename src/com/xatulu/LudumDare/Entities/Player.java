@@ -18,6 +18,7 @@ public class Player {
     private int lastdir = 1;
     private boolean moving = false;
     private boolean inAir = false;
+    private boolean reachedGoal = false;
 
 
     public final Image right;
@@ -91,7 +92,7 @@ public class Player {
             this.y = ny;
         }
         if (validGoal(nx, ny, offsetx, offsety, level))
-            System.out.println("JASDONGOINASFD");
+            setReachedGoal(true);
     }
 
     public boolean validLocation(float nx, float ny, int offsetx, int offsety, Level level) {
@@ -116,9 +117,8 @@ public class Player {
     }
 
     public boolean validGoal(float nx, float ny, int offsetx, int offsety, Level level) {
-        if (isGoal(nx - offsetx + 16, ny - offsety + 16, level)) {
+        if (isGoal(nx - offsetx + 16, ny - offsety + 16, level))
             return true;
-        }
         return false;
     }
 
@@ -128,5 +128,13 @@ public class Player {
 
     boolean isGoal(float x, float y, Level level) {
         return level.goal[(int) x / Level1.SIZE][(int) y / Level1.SIZE];
+    }
+
+    public boolean isReachedGoal() {
+        return reachedGoal;
+    }
+
+    public void setReachedGoal(boolean reachedGoal) {
+        this.reachedGoal = reachedGoal;
     }
 }
