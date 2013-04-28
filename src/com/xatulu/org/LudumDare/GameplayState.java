@@ -14,17 +14,19 @@ import java.util.Random;
  * Date: 27.04.13
  * Time: 05:06
  */
-public class GameplayState extends BasicGameState{
+public class GameplayState extends BasicGameState implements KeyListener {
 
     private int stateID = 1;
     private int elapsedTime = 0, jumptimer = 0;
-    private int offsetX = 0;
+    public int offsetX = 0;
     int music_track = 0;
-    int offsetY = 0;
+    public int offsetY = 0;
     boolean music_playing = false;
     private TiledMap level1;
-    private boolean[][] blocked;
-    private static final int SIZE = 32;
+    public static boolean[][] blocked;
+    private boolean left, right, up;
+    private boolean down = true;
+    public static final int SIZE = 32;
     Random random = new Random(System.currentTimeMillis());
 
     Music[] bgm = null;
@@ -74,12 +76,12 @@ public class GameplayState extends BasicGameState{
         buildCollision();
     }
 
-    private void buildCollision(){
+    private void buildCollision() {
         blocked = new boolean[level1.getWidth()][level1.getHeight()];
-        for (int xAxis = 0; xAxis < level1.getWidth(); xAxis++){
-            for (int yAxis = 0; yAxis < level1.getHeight(); yAxis++){
+        for (int xAxis = 0; xAxis < level1.getWidth(); xAxis++) {
+            for (int yAxis = 0; yAxis < level1.getHeight(); yAxis++) {
                 int tileID = level1.getTileId(xAxis, yAxis, 0);
-                if(tileID == 7){
+                if (tileID == 7) {
                     blocked[xAxis][yAxis] = true;
                 }
             }
@@ -106,68 +108,92 @@ public class GameplayState extends BasicGameState{
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
         elapsedTime += i;
-        Input input = gameContainer.getInput();
         startMusic();
         switch (currentState) {
             case LEVEL1_STATE:
-                if (input.isKeyDown(Input.KEY_A)) {
-                    if(!isBlocked(player.getX() - offsetX - i * 0.3f, player.getY()-offsetY)){
-                        player.setMoving(true);
-                        player.setDir(-1);
-                        player.setLastdir(-1);
-                        offsetX += i * 0.3;
-                    }
+                float dx = 0;
+                float dy = 0;
+                if (left) {
+                    dx -= 1;
                 }
-                if (input.isKeyDown(Input.KEY_D)) {
-                    if(!isBlocked(player.getX() - offsetX + SIZE + i * 0.3f, player.getY()- offsetY)){
-                        player.setMoving(true);
-                        player.setDir(1);
-                        player.setLastdir(-1);
-                        offsetX -= i * 0.3;
-                    }
+                if (right) {
+                    dx += 1;
                 }
-                if (input.isKeyDown(Input.KEY_W) && !player.isInAir()){
-                    if(!isBlocked(player.getX() - offsetX, player.getY() - offsetY - i * 0.6f)){
-                        player.setY((int) ((double) player.getY() - i * 0.6));
-                        jumptimer+=i;
-                    }
-                }
-                if (jumptimer > 300){
-                    jumptimer=0;
+                if (up) {
+                    dy -= 3;
                     player.setInAir(true);
-                    jump.play();
                 }
-                if(!isBlocked(player.getX() - offsetX, player.getY() - offsetY + SIZE)){
-                    player.setY((int)((double)player.getY() + i*0.3));
+                if ((dx != 0) || (dy != 0)) {
+                    player.move(dx * i * 0.3f, dy * i * 0.3f, offsetX, offsetY);
                 }
-                if(isBlocked(player.getX() - offsetX, player.getY() - offsetY + SIZE))
-                    player.setInAir(false);
-
-                if (LudumDare.HEIGHT - player.getY() < 96){
-                    offsetY -= 96 - (LudumDare.HEIGHT - player.getY());
-                    player.setY(LudumDare.HEIGHT-96);
-                }
-                if (player.getY() < 96){
-                    offsetY += 96 - player.getY();
-                    player.setY(96);
-                }
-
-
+                player.move(0, i * 0.3f, offsetX, offsetY);
+                updateCamera();
             case EXIT_STATE:
                 break;
         }
     }
 
-    private void startMusic() {
-        if(!music_playing){
-            bgm[random.nextInt(bgm.length-1)].loop();
-            music_playing=true;
+    private void updateCamera() {
+        if (LudumDare.WIDTH - player.getX() < 96){
+            offsetX -= 96 - (LudumDare.WIDTH - player.getX());
+            player.setX(LudumDare.WIDTH-96);
+        }
+        if (player.getX() < 96){
+            offsetX += 96 - player.getX();
+            player.setX(96);
+        }
+        if (LudumDare.HEIGHT - player.getY() < 96){
+            offsetY -= 96 - (LudumDare.HEIGHT - player.getY());
+            player.setY(LudumDare.HEIGHT-96);
+        }
+        if (player.getY() < 96){
+            offsetY += 96 - player.getY();
+            player.setY(96);
         }
     }
 
-    private boolean isBlocked(float x, float y) {
-        int xBlock = (int) x / SIZE;
-        int yBlock = (int) y / SIZE;
-        return blocked[xBlock][yBlock];
+    @Override
+    public void keyPressed(int i, char c) {
+        if ((i == Input.KEY_LEFT)) {
+            left = true;
+            player.setMoving(true);
+            player.setDir(-1);
+        }
+        if ((i == Input.KEY_RIGHT)) {
+            right = true;
+            player.setMoving(true);
+            player.setDir(1);
+        }
+        if ((i == Input.KEY_UP)) {
+            up = true;
+            player.setMoving(true);
+        }
     }
+
+    @Override
+    public void keyReleased(int i, char c) {
+        if ((i == Input.KEY_LEFT)) {
+            left = false;
+            player.setMoving(false);
+            player.setLastdir(-1);
+        }
+        if ((i == Input.KEY_RIGHT)) {
+            right = false;
+            player.setMoving(false);
+            player.setLastdir(1);
+        }
+        if ((i == Input.KEY_UP)) {
+            up = false;
+            player.setMoving(false);
+        }
+    }
+
+    private void startMusic() {
+        if (!music_playing) {
+            bgm[random.nextInt(bgm.length - 1)].loop();
+            music_playing = true;
+        }
+    }
+
+
 }

@@ -23,8 +23,6 @@ public class LudumDare extends StateBasedGame {
     public static void main(String[] args) throws SlickException {
         AppGameContainer app = new AppGameContainer(new LudumDare());
         app.setDisplayMode(WIDTH, HEIGHT, false);
-        app.setMinimumLogicUpdateInterval(20);
-        app.setMaximumLogicUpdateInterval(20);
         app.setVSync(true);
         app.setShowFPS(false);
         app.start();
