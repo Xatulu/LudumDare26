@@ -24,7 +24,7 @@ public class LudumDare extends StateBasedGame {
         super("Minimalism");
         this.addState(new MainMenuState());
         this.addState(new Level1());
-        this.enterState(GAMEPLAYSTATE);
+        this.enterState(MAINMENUSTATE);
     }
 
     public static void main(String[] args) throws SlickException {

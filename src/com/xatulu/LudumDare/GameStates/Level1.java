@@ -48,8 +48,7 @@ public class Level1 extends BasicGameState implements KeyListener {
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         SpriteSheet sheet = new SpriteSheet("res/graphics/SpriteSheet.png", 32, 32);
         player = new Player(96, 255, sheet.getSprite(0, 0), sheet.getSprite(1, 0), new Animation(new Image[]{sheet.getSprite(0, 0), sheet.getSprite(2, 0)}, 250), new Animation(new Image[]{sheet.getSprite(1, 0), sheet.getSprite(3, 0)}, 250));
-        bgm = new Music[]{   //TODO Ladezeit verbessern
-                new Music("res/music/level1.ogg"),
+        bgm = new Music[]{
                 new Music("res/music/level2.ogg"),
                 new Music("res/music/level3.ogg"),
                 new Music("res/music/level4.ogg"),
