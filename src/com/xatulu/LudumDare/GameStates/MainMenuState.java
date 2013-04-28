@@ -90,9 +90,10 @@ public class MainMenuState extends BasicGameState {
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-        if (!music_started)
+        if (!music_started) {
             bgm.play();
-        music_started = true;
+            music_started = true;
+        }
         getMouseInput();
         if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
             switch (state) {
@@ -100,6 +101,7 @@ public class MainMenuState extends BasicGameState {
                     stateBasedGame.enterState(LudumDare.GAMEPLAYSTATE);
                     select.play();
                     bgm.stop();
+                    music_started = false;
                     break;
                 case (2):
                     error.play();

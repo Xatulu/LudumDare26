@@ -1,5 +1,6 @@
 package com.xatulu.LudumDare;
 
+import com.xatulu.LudumDare.GameStates.Dummy;
 import com.xatulu.LudumDare.GameStates.Level1;
 import com.xatulu.LudumDare.GameStates.MainMenuState;
 import org.newdawn.slick.AppGameContainer;
@@ -18,6 +19,7 @@ public class LudumDare extends StateBasedGame {
     public static final Integer HEIGHT = 480;
     public static final int GAMEPLAYSTATE = 1;
     public static final int MAINMENUSTATE = 0;
+    public static final int DUMMYSTATE = 2;
 
     public static boolean SoundOn = true;
     public static boolean MusicOn = true;
@@ -27,6 +29,7 @@ public class LudumDare extends StateBasedGame {
         super("Minimalism");
         this.addState(new MainMenuState());
         this.addState(new Level1());
+        this.addState(new Dummy());
         this.enterState(MAINMENUSTATE);
     }
 
@@ -42,5 +45,6 @@ public class LudumDare extends StateBasedGame {
     public void initStatesList(GameContainer gameContainer) throws SlickException {
         this.getState(MAINMENUSTATE).init(gameContainer, this);
         this.getState(GAMEPLAYSTATE).init(gameContainer, this);
+        this.getState(DUMMYSTATE).init(gameContainer, this);
     }
 }

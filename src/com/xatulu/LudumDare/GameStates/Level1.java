@@ -18,24 +18,24 @@ import java.util.Random;
  */
 public class Level1 extends BasicGameState implements KeyListener, Pauseable {
 
-    private final Level level = null;
-    private int stateID = 1;
+    public static final int SIZE = 32;
     private static int jumpheight = 0;
+    private final Level level = null;
+    private final Random random = new Random(System.currentTimeMillis());
+    public Level level1;
+    private int stateID = 1;
     private int offsetX = 0;
     private int offsetY = 0;
     private boolean music_playing = false;
     private boolean left, right, up;
-    public Level level1;
-    public static final int SIZE = 32;
-
-    private final Random random = new Random(System.currentTimeMillis());
-
     private Music[] bgm = null;
     private int current_song;
-
     private Sound jump = null;
-
     private Player player = null;
+    private Image controls;
+    private Input input;
+    private GameContainer gameContainer;
+    private StateBasedGame stateBasedGame;
 
     public Level1() {
         this.stateID = LudumDare.GAMEPLAYSTATE;
@@ -43,7 +43,7 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
 
     @Override
     public int getID() {
-        return stateID;  //To change body of implemented methods use File | Settings | File Templates.
+        return stateID;
     }
 
     @Override
@@ -57,8 +57,18 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
                 new Music("res/music/level5.ogg"),
                 new Music("res/music/level6.ogg")
         };
+        controls = new Image("res/graphics/controls.png");
         jump = new Sound("res/sounds/jump.wav");
         level1 = new Level(new TiledMap("res/graphics/level1.tmx"));
+        input = gameContainer.getInput();
+    }
+
+    public void reinit() throws SlickException {
+        SpriteSheet sheet = new SpriteSheet("res/graphics/SpriteSheet.png", 32, 32);
+        player = new Player(96, 255, sheet.getSprite(0, 0), sheet.getSprite(1, 0), new Animation(new Image[]{sheet.getSprite(0, 0), sheet.getSprite(2, 0)}, 250), new Animation(new Image[]{sheet.getSprite(1, 0), sheet.getSprite(3, 0)}, 250));
+        input = gameContainer.getInput();
+        offsetX = 0;
+        offsetY = 0;
     }
 
     @Override
@@ -67,6 +77,9 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
         graphics.setColor(Color.black);
         level1.getMap().render(offsetX, offsetY, 1);
         level1.getMap().render(offsetX, offsetY, 2);
+        Image temp = controls.getScaledCopy(0.8f);
+        temp.setRotation(15);
+        temp.draw(64 + offsetX, 75 + offsetY);
 
         if (player.isMoving() && player.getDir() == 1) {
             graphics.drawAnimation(player.walk_r, player.getX(), player.getY());
@@ -107,6 +120,8 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
             jumpheight = 0;
         }
         updateCamera();
+        this.gameContainer = gameContainer;
+        this.stateBasedGame = stateBasedGame;
     }
 
     private void updateCamera() {
@@ -159,6 +174,42 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
                 bgm[current_song].pause();
             }
         }
+        if ((i == Input.KEY_F5)) {
+            if (LudumDare.MusicOn) {
+                LudumDare.MusicOn = false;
+                gameContainer.setMusicOn(false);
+            } else {
+                LudumDare.MusicOn = true;
+                gameContainer.setMusicOn(true);
+            }
+        }
+        if ((i == Input.KEY_F6)) {
+            if (LudumDare.SoundOn) {
+                LudumDare.SoundOn = false;
+                gameContainer.setSoundOn(false);
+            } else {
+                LudumDare.SoundOn = true;
+                gameContainer.setSoundOn(true);
+            }
+        }
+        if ((i == Input.KEY_F2)) {
+            try {
+                reinit();
+            } catch (SlickException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            stateBasedGame.enterState(LudumDare.MAINMENUSTATE);
+            bgm[current_song].stop();
+            music_playing = false;
+        }
+        if ((i == Input.KEY_F10)) {
+            try {
+                reinit();
+            } catch (SlickException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            stateBasedGame.enterState(LudumDare.DUMMYSTATE);
+        }
     }
 
     @Override
@@ -184,6 +235,4 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
             music_playing = true;
         }
     }
-
-
 }
