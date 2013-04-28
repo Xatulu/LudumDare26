@@ -48,7 +48,7 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         SpriteSheet sheet = new SpriteSheet("res/graphics/SpriteSheet.png", 32, 32);
-        player = new Player(96, 255, sheet.getSprite(0, 0), sheet.getSprite(1, 0), new Animation(new Image[]{sheet.getSprite(0, 0), sheet.getSprite(2, 0)}, 250), new Animation(new Image[]{sheet.getSprite(1, 0), sheet.getSprite(3, 0)}, 250));
+        player = new Player(96, 255, sheet.getSprite(0, 10), sheet.getSprite(0, 10).getFlippedCopy(true, false), new Animation(new Image[]{sheet.getSprite(0, 10), sheet.getSprite(1, 10), sheet.getSprite(2, 10), sheet.getSprite(3, 10), sheet.getSprite(4, 10), sheet.getSprite(5, 10), sheet.getSprite(6, 10), sheet.getSprite(7, 10)}, 250), new Animation(new Image[]{sheet.getSprite(0, 10).getFlippedCopy(true, false), sheet.getSprite(1, 10).getFlippedCopy(true, false), sheet.getSprite(2, 10).getFlippedCopy(true, false), sheet.getSprite(3, 10).getFlippedCopy(true, false), sheet.getSprite(4, 10).getFlippedCopy(true, false), sheet.getSprite(5, 10).getFlippedCopy(true, false), sheet.getSprite(6, 10).getFlippedCopy(true, false), sheet.getSprite(7, 10).getFlippedCopy(true, false)}, 250));
         bgm = new Music[]{
                 new Music("res/music/level2.ogg"),
                 new Music("res/music/level3.ogg"),
@@ -65,7 +65,7 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
 
     public static void reinit() throws SlickException {
         SpriteSheet sheet = new SpriteSheet("res/graphics/SpriteSheet.png", 32, 32);
-        player = new Player(96, 255, sheet.getSprite(0, 0), sheet.getSprite(1, 0), new Animation(new Image[]{sheet.getSprite(0, 0), sheet.getSprite(2, 0)}, 250), new Animation(new Image[]{sheet.getSprite(1, 0), sheet.getSprite(3, 0)}, 250));
+        player = new Player(96, 255, sheet.getSprite(0, 10), sheet.getSprite(0, 10).getFlippedCopy(true, false), new Animation(new Image[]{sheet.getSprite(0, 10), sheet.getSprite(1, 10), sheet.getSprite(2, 10), sheet.getSprite(3, 10), sheet.getSprite(4, 10), sheet.getSprite(5, 10), sheet.getSprite(6, 10), sheet.getSprite(7, 10)}, 500), new Animation(new Image[]{sheet.getSprite(0, 10).getFlippedCopy(true, false), sheet.getSprite(1, 10).getFlippedCopy(true, false), sheet.getSprite(2, 10).getFlippedCopy(true, false), sheet.getSprite(3, 10).getFlippedCopy(true, false), sheet.getSprite(4, 10).getFlippedCopy(true, false), sheet.getSprite(5, 10).getFlippedCopy(true, false), sheet.getSprite(6, 10).getFlippedCopy(true, false), sheet.getSprite(7, 10).getFlippedCopy(true, false)}, 500));
         offsetX = 0;
         offsetY = 0;
     }

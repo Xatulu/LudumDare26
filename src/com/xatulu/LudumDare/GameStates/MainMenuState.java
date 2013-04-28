@@ -14,7 +14,7 @@ import org.newdawn.slick.tiled.TiledMap;
  */
 
 //TODO MouseListener statt standard-listener
-public class MainMenuState extends BasicGameState implements KeyListener {
+public class MainMenuState extends BasicGameState implements KeyListener, MouseListener {
 
     private int stateID = 0;
     private int state = 1;
@@ -119,32 +119,10 @@ public class MainMenuState extends BasicGameState implements KeyListener {
             bgm.loop();
             music_started = true;
         }
-        getMouseInput();
-        if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-            switch (state) {
-                case (1):
-                    newGame();
-                    break;
-                case (2):
-                    continueGame();
-                    break;
-                case (3):
-                    exitGame();
-                    break;
-                case (4):
-                    SetMusic();
-                    break;
-                case (5):
-                    SetSound();
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 
-    private void getMouseInput() {
-        int mousex = input.getMouseX(), mousey = input.getMouseY();
+    public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+        int mousex = newx, mousey = newy;
         if (mousex >= 256 && mousex < 384 && mousey >= 256 && mousey < 278) {
             state = 1;
         } else if (mousex >= 256 && mousex < 384 && mousey >= 304 && mousey < 326) {
@@ -155,6 +133,30 @@ public class MainMenuState extends BasicGameState implements KeyListener {
             state = 4;
         } else if (mousex >= 336 && mousex < 368 && mousey >= 380 && mousey < 412) {
             state = 5;
+        } else {
+            state = 0;
+        }
+    }
+
+    public void mouseClicked(int button, int x, int y, int clickCount) {
+        switch (state) {
+            case (1):
+                newGame();
+                break;
+            case (2):
+                continueGame();
+                break;
+            case (3):
+                exitGame();
+                break;
+            case (4):
+                SetMusic();
+                break;
+            case (5):
+                SetSound();
+                break;
+            default:
+                break;
         }
     }
 

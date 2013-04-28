@@ -53,5 +53,4 @@ public class LudumDare extends StateBasedGame {
     }
 }
 
-//TODO Spieler neu zeichnen
 //TODO Spiel fertigzeichnen
