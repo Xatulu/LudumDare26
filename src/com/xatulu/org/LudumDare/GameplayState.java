@@ -60,7 +60,7 @@ public class GameplayState extends BasicGameState{
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
         font = new AngelCodeFont("res/font.fnt", "res/font_0.png");
         sheet = new SpriteSheet("res/SpriteSheet.png", 32, 32);
-        player = new Player(75, 150, sheet.getSprite(0, 0), sheet.getSprite(1, 0), new Animation(new Image[]{sheet.getSprite(0, 0), sheet.getSprite(2, 0)}, 250), new Animation(new Image[]{sheet.getSprite(1, 0), sheet.getSprite(3, 0)}, 250));
+        player = new Player(320, 150, sheet.getSprite(0, 0), sheet.getSprite(1, 0), new Animation(new Image[]{sheet.getSprite(0, 0), sheet.getSprite(2, 0)}, 250), new Animation(new Image[]{sheet.getSprite(1, 0), sheet.getSprite(3, 0)}, 250));
         bgm = new Music[]{
                 new Music("res/level1.ogg"),
                 new Music("res/level2.ogg"),
@@ -68,19 +68,18 @@ public class GameplayState extends BasicGameState{
                 new Music("res/level4.ogg"),
                 new Music("res/level5.ogg")
         };
-        level1 = new TiledMap("res/testmap.tmx");
+        level1 = new TiledMap("res/level1.tmx");
         jump = new Sound("res/jump.wav");
 
         buildCollision();
     }
 
-    private void buildCollision() { //TODO Irgendwas stimmt hier nicht
+    private void buildCollision(){
         blocked = new boolean[level1.getWidth()][level1.getHeight()];
-        for (int xAxis = 0; xAxis < level1.getWidth(); xAxis++) {
-            for (int yAxis = 0; yAxis < level1.getHeight(); yAxis++) {
+        for (int xAxis = 0; xAxis < level1.getWidth(); xAxis++){
+            for (int yAxis = 0; yAxis < level1.getHeight(); yAxis++){
                 int tileID = level1.getTileId(xAxis, yAxis, 0);
-                String value = level1.getTileProperty(tileID, "blocked", "false");
-                if ("true".equals(value)) {
+                if(tileID == 7){
                     blocked[xAxis][yAxis] = true;
                 }
             }
@@ -91,7 +90,7 @@ public class GameplayState extends BasicGameState{
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
         graphics.setBackground(Color.white);
         graphics.setColor(Color.black);
-        level1.render(0 + offsetX, 0 + offsetY);
+        level1.render(0 + offsetX, 0 + offsetY, 1);
 
         if (player.isMoving() && player.getDir() == 1) {
             graphics.drawAnimation(player.walk_r, player.getX(), player.getY());
@@ -107,46 +106,53 @@ public class GameplayState extends BasicGameState{
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
         elapsedTime += i;
+        Input input = gameContainer.getInput();
         startMusic();
         switch (currentState) {
             case LEVEL1_STATE:
-                jumptimer += i;
-                Input input = gameContainer.getInput();
+                if (input.isKeyDown(Input.KEY_A)) {
+                    if(!isBlocked(player.getX() - offsetX - i * 0.3f, player.getY()-offsetY)){
+                        player.setMoving(true);
+                        player.setDir(-1);
+                        player.setLastdir(-1);
+                        offsetX += i * 0.3;
+                    }
+                }
                 if (input.isKeyDown(Input.KEY_D)) {
-                    player.setMoving(true);
-                    player.setDir(1);
-                    player.setLastdir(1);
-                    if (!isBlocked(player.getX() - offsetX + i * 0.3f, player.getY())) {
+                    if(!isBlocked(player.getX() - offsetX + SIZE + i * 0.3f, player.getY()- offsetY)){
+                        player.setMoving(true);
+                        player.setDir(1);
+                        player.setLastdir(-1);
                         offsetX -= i * 0.3;
                     }
                 }
-                if (input.isKeyDown(Input.KEY_A)) {
-                    player.setMoving(true);
-                    player.setDir(-1);
-                    player.setLastdir(-1);
-                    if (!isBlocked(player.getX() - offsetX - i * 0.3f, player.getY())) {
-                        offsetX += i * 0.3;
-                    }
-                    player.setLastdir(-1);
-                }
-                if (input.isKeyDown(Input.KEY_W) && !player.isInAir() && (LudumDare.HEIGHT - player.getY() < 250)) {
-                    player.setMoving(true);                                                    //TODO DoubleJumps entfernen
-
-                    if (!isBlocked(player.getX() - offsetX, player.getY() - offsetY - i * 0.3f)) {
+                if (input.isKeyDown(Input.KEY_W) && !player.isInAir()){
+                    if(!isBlocked(player.getX() - offsetX, player.getY() - offsetY - i * 0.6f)){
                         player.setY((int) ((double) player.getY() - i * 0.6));
+                        jumptimer+=i;
                     }
-                    if (isBlocked(player.getX() + offsetX, player.getY() + SIZE + i * 0.3f)){
-                        player.setInAir(false);
-                    }
-                    if (LudumDare.HEIGHT - player.getY() > 220) {
-                        player.setInAir(true);
-                        jump.play();
-                    }
+                }
+                if (jumptimer > 300){
+                    jumptimer=0;
+                    player.setInAir(true);
+                    jump.play();
+                }
+                if(!isBlocked(player.getX() - offsetX, player.getY() - offsetY + SIZE)){
+                    player.setY((int)((double)player.getY() + i*0.3));
+                }
+                if(isBlocked(player.getX() - offsetX, player.getY() - offsetY + SIZE))
+                    player.setInAir(false);
+
+                if (LudumDare.HEIGHT - player.getY() < 96){
+                    offsetY -= 96 - (LudumDare.HEIGHT - player.getY());
+                    player.setY(LudumDare.HEIGHT-96);
+                }
+                if (player.getY() < 96){
+                    offsetY += 96 - player.getY();
+                    player.setY(96);
                 }
 
-                if (!isBlocked(player.getX() + offsetX, player.getY() + SIZE + i * 0.3f)) {
-                    player.setY((int) ((double) player.getY() + i * 0.3));
-                }
+
             case EXIT_STATE:
                 break;
         }
@@ -156,14 +162,6 @@ public class GameplayState extends BasicGameState{
         if(!music_playing){
             bgm[random.nextInt(bgm.length-1)].loop();
             music_playing=true;
-        }
-    }
-
-    private void moveIntro(int i) {
-        if (Text.intro0.getY() > 50) {
-            Text.intro0.setY((int) (Text.intro0.getY() - i * 0.1));
-            Text.intro1.setY((int) (Text.intro1.getY() - i * 0.1));
-            Text.intro2.setY((int) (Text.intro2.getY() - i * 0.1));
         }
     }
 
