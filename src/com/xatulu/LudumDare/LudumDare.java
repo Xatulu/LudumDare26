@@ -19,6 +19,9 @@ public class LudumDare extends StateBasedGame {
     public static final int GAMEPLAYSTATE = 1;
     public static final int MAINMENUSTATE = 0;
 
+    public static boolean SoundOn = true;
+    public static boolean MusicOn = true;
+
 
     private LudumDare() {
         super("Minimalism");

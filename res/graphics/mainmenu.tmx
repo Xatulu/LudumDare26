@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="SpriteSheet" tilewidth="32" tileheight="32">
+  <image source="SpriteSheet.png" width="512" height="512"/>
+ </tileset>
+ <layer name="Blocked" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIKhAQAEsAAB
+  </data>
+ </layer>
+ <layer name="Kachelebene 2" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJwTYmBgEKIyBgFVJKyCxFZEk0OWV0RiMyCZZwjEbkDsSiY2A2JRJPOMoXxygQkW84QpMA/mHph5RhS6D+Ye5PCj1Dx0/wpS2TxKw08EyTwTKphHy/ilRfhZMKDmKWUGzHyGS94Dai5y/oXlHRcGwvnLBQsb2TxqYgBAKhdw
+  </data>
+ </layer>
+ <layer name="Kachelebene 3" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIKhAQAEsAAB
+  </data>
+ </layer>
+</map>
