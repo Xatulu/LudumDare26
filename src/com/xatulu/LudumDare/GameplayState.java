@@ -1,7 +1,7 @@
-package com.xatulu.org.LudumDare;
+package com.xatulu.LudumDare;
 
-import com.xatulu.org.LudumDare.Entities.Player;
-import com.xatulu.org.LudumDare.Intro.Text;
+import com.xatulu.LudumDare.Entities.Player;
+import com.xatulu.LudumDare.Intro.Text;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;

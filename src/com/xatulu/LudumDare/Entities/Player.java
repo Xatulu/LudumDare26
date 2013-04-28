@@ -1,6 +1,6 @@
-package com.xatulu.org.LudumDare.Entities;
+package com.xatulu.LudumDare.Entities;
 
-import com.xatulu.org.LudumDare.GameplayState;
+import com.xatulu.LudumDare.GameplayState;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 

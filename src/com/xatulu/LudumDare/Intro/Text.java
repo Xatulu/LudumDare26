@@ -1,7 +1,7 @@
-package com.xatulu.org.LudumDare.Intro;
+package com.xatulu.LudumDare.Intro;
 
-import com.xatulu.org.LudumDare.GameplayState;
-import com.xatulu.org.LudumDare.LudumDare;
+import com.xatulu.LudumDare.GameplayState;
+import com.xatulu.LudumDare.LudumDare;
 import org.newdawn.slick.Font;
 
 /**

@@ -1,4 +1,4 @@
-package com.xatulu.org.LudumDare;
+package com.xatulu.LudumDare;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
