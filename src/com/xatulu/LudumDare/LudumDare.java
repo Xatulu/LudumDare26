@@ -1,6 +1,10 @@
 package com.xatulu.LudumDare;
 
-import org.newdawn.slick.*;
+import com.xatulu.LudumDare.GameStates.GameplayState;
+import com.xatulu.LudumDare.GameStates.MainMenuState;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
@@ -12,15 +16,15 @@ public class LudumDare extends StateBasedGame {
 
     public static final Integer WIDTH = 640;
     public static final Integer HEIGHT = 480;
-    private static final int GAMEPLAYSTATE = 1;
-    private static final int MAINMENUSTATE = 0;
+    public static final int GAMEPLAYSTATE = 1;
+    public static final int MAINMENUSTATE = 0;
 
 
     private LudumDare() {
         super("Minimalism");
-        this.addState(new MainMenuState(MAINMENUSTATE));
-        this.addState(new GameplayState(GAMEPLAYSTATE));
-        this.enterState(MAINMENUSTATE);
+        this.addState(new MainMenuState());
+        this.addState(new GameplayState());
+        this.enterState(GAMEPLAYSTATE);
     }
 
     public static void main(String[] args) throws SlickException {

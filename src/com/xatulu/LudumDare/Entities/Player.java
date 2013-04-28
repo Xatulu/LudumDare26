@@ -1,6 +1,6 @@
 package com.xatulu.LudumDare.Entities;
 
-import com.xatulu.LudumDare.GameplayState;
+import com.xatulu.LudumDare.GameStates.GameplayState;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
@@ -18,14 +18,11 @@ public class Player {
     private boolean moving = false;
     private boolean inAir = false;
 
-    int moveymax = 96;
 
-
-    public Image right;
-    public Image left;
-    public Animation walk_r;
-    public Animation walk_l;
-    private float size = 0.3f;
+    public final Image right;
+    public final Image left;
+    public final Animation walk_r;
+    public final Animation walk_l;
 
     public Player(int x, int y, Image right, Image left, Animation walk_r, Animation walk_l) {
         this.x = x;
@@ -76,31 +73,22 @@ public class Player {
         this.lastdir = lastdir;
     }
 
-    public void runin(int i) {
-        moving = true;
-        this.setX((int) (this.getX() + i * 0.2));
-
-    }
-
     public boolean isInAir() {
-        return inAir;
+        return !inAir;
     }
 
     public void setInAir(boolean inAir) {
         this.inAir = inAir;
     }
 
-    public boolean move(float dx, float dy, int offsetx, int offsety) {
+    public void move(float dx, float dy, int offsetx, int offsety) {
         float nx = this.x + dx;
         float ny = this.y + dy;
 
         if (validLocation(nx, ny, offsetx, offsety)) {
             this.x = nx;
             this.y = ny;
-
-            return true;
         }
-        return false;
     }
 
     public boolean validLocation(float nx, float ny, int offsetx, int offsety) {
@@ -124,7 +112,7 @@ public class Player {
         return true;
     }
 
-    public boolean isBlocked(float x, float y) {
-        return GameplayState.blocked[(int) x / GameplayState.SIZE][(int) y / GameplayState.SIZE] == true;
+    boolean isBlocked(float x, float y) {
+        return GameplayState.blocked[(int) x / GameplayState.SIZE][(int) y / GameplayState.SIZE];
     }
 }

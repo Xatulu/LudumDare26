@@ -1,6 +1,7 @@
-package com.xatulu.LudumDare;
+package com.xatulu.LudumDare.GameStates;
 
 import com.xatulu.LudumDare.Entities.Player;
+import com.xatulu.LudumDare.LudumDare;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -16,44 +17,25 @@ import java.util.Random;
 public class GameplayState extends BasicGameState implements KeyListener {
 
     private int stateID = 1;
-    public int elapsedTime = 0;
-    public static int jumpheight = 0;
-    public static int jumptimer = 0;
-    public int offsetX = 0;
-    int music_track = 0;
-    public int offsetY = 0;
-    boolean music_playing = false;
+    private static int jumpheight = 0;
+    private int offsetX = 0;
+    private int offsetY = 0;
+    private boolean music_playing = false;
     private TiledMap level1;
     public static boolean[][] blocked;
-    public static boolean saved = false;
     private boolean left, right, up;
-    private boolean down = true;
     public static final int SIZE = 32;
 
-    Random random = new Random(System.currentTimeMillis());
+    private final Random random = new Random(System.currentTimeMillis());
 
-    Music[] bgm = null;
+    private Music[] bgm = null;
 
-    Sound jump = null;
+    private Sound jump = null;
 
     private Player player = null;
 
-    public static Font font = null;
-
-    private enum STATES {LEVEL1_STATE, EXIT_STATE}
-
-    private STATES currentState = null;
-
-    private SpriteSheet sheet = null;
-
-    public GameplayState(int stateID) {
-        this.stateID = stateID;
-    }
-
-    @Override
-    public void enter(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        super.enter(gameContainer, stateBasedGame);
-        currentState = STATES.LEVEL1_STATE;
+    public GameplayState() {
+        this.stateID = LudumDare.GAMEPLAYSTATE;
     }
 
     @Override
@@ -63,19 +45,18 @@ public class GameplayState extends BasicGameState implements KeyListener {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        font = new AngelCodeFont("res/font.fnt", "res/font_0.png");
-        sheet = new SpriteSheet("res/SpriteSheet.png", 32, 32);
-        player = new Player(320, 150, sheet.getSprite(0, 0), sheet.getSprite(1, 0), new Animation(new Image[]{sheet.getSprite(0, 0), sheet.getSprite(2, 0)}, 250), new Animation(new Image[]{sheet.getSprite(1, 0), sheet.getSprite(3, 0)}, 250));
-        bgm = new Music[]{
-                new Music("res/level1.ogg"),
-                new Music("res/level2.ogg"),
-                new Music("res/level3.ogg"),
-                new Music("res/level4.ogg"),
-                new Music("res/level5.ogg"),
-                new Music("res/bossfight.ogg")
+        SpriteSheet sheet = new SpriteSheet("res/graphics/SpriteSheet.png", 32, 32);
+        player = new Player(96, 255, sheet.getSprite(0, 0), sheet.getSprite(1, 0), new Animation(new Image[]{sheet.getSprite(0, 0), sheet.getSprite(2, 0)}, 250), new Animation(new Image[]{sheet.getSprite(1, 0), sheet.getSprite(3, 0)}, 250));
+        bgm = new Music[]{   //TODO Ladezeit verbessern
+                new Music("res/music/level1.ogg"),
+                new Music("res/music/level2.ogg"),
+                new Music("res/music/level3.ogg"),
+                new Music("res/music/level4.ogg"),
+                new Music("res/music/level5.ogg"),
+                new Music("res/music/level6.ogg")
         };
-        level1 = new TiledMap("res/level1.tmx");
-        jump = new Sound("res/jump.wav");
+        level1 = new TiledMap("res/graphics/level1.tmx");
+        jump = new Sound("res/sounds/jump.wav");
 
         buildCollision();
     }
@@ -96,8 +77,8 @@ public class GameplayState extends BasicGameState implements KeyListener {
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
         graphics.setBackground(Color.white);
         graphics.setColor(Color.black);
-        level1.render(0 + offsetX, 0 + offsetY, 1);
-        level1.render(0 + offsetX, 0 + offsetY, 2);
+        level1.render(offsetX, offsetY, 1);
+        level1.render(offsetX, offsetY, 2);
 
         if (player.isMoving() && player.getDir() == 1) {
             graphics.drawAnimation(player.walk_r, player.getX(), player.getY());
@@ -112,7 +93,6 @@ public class GameplayState extends BasicGameState implements KeyListener {
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-        elapsedTime += i;
         startMusic();
         float dx = 0;
         float dy = 0;
@@ -166,13 +146,15 @@ public class GameplayState extends BasicGameState implements KeyListener {
             left = true;
             player.setMoving(true);
             player.setDir(-1);
+            player.setLastdir(-1);
         }
         if ((i == Input.KEY_RIGHT)) {
             right = true;
             player.setMoving(true);
             player.setDir(1);
+            player.setLastdir(1);
         }
-        if ((i == Input.KEY_UP) && !player.isInAir()) {
+        if ((i == Input.KEY_UP) && player.isInAir()) {
             up = true;
             jump.play();
             player.setMoving(true);
@@ -185,12 +167,10 @@ public class GameplayState extends BasicGameState implements KeyListener {
         if ((i == Input.KEY_LEFT)) {
             left = false;
             player.setMoving(false);
-            player.setLastdir(-1);
         }
         if ((i == Input.KEY_RIGHT)) {
             right = false;
             player.setMoving(false);
-            player.setLastdir(1);
         }
         if ((i == Input.KEY_UP)) {
             up = false;
