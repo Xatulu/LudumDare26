@@ -12,10 +12,10 @@ import org.newdawn.slick.tiled.TiledMap;
  * Date: 28.04.13
  * Time: 16:13
  */
-public class MainMenuState extends BasicGameState {
+public class MainMenuState extends BasicGameState implements KeyListener {
 
     private int stateID = 0;
-    private int state;
+    private int state = 1;
     private Music bgm;
     private Level level;
     private Image title;
@@ -23,6 +23,9 @@ public class MainMenuState extends BasicGameState {
     private Image[] menuOptions;
     private Input input;
     private Sound select, error;
+    private GameContainer gameContainer;
+    private StateBasedGame stateBasedGame;
+    private boolean first_try = true;
 
     public MainMenuState() {
         this.stateID = LudumDare.MAINMENUSTATE;
@@ -48,11 +51,17 @@ public class MainMenuState extends BasicGameState {
                 new Image("res/graphics/menu_options.png").getSubImage(0, 192, 32, 32),
                 new Image("res/graphics/menu_options.png").getSubImage(32, 192, 32, 32),
                 new Image("res/graphics/menu_options.png").getSubImage(64, 192, 32, 32),
-                new Image("res/graphics/menu_options.png").getSubImage(96, 192, 32, 32)
+                new Image("res/graphics/menu_options.png").getSubImage(96, 192, 32, 32),
+                new Image("res/graphics/menu_options.png").getSubImage(0, 224, 32, 32),
+                new Image("res/graphics/menu_options.png").getSubImage(32, 224, 32, 32),
+                new Image("res/graphics/menu_options.png").getSubImage(64, 224, 32, 32),
+                new Image("res/graphics/menu_options.png").getSubImage(96, 224, 32, 32)
         };
         select = new Sound("res/sounds/select.wav");
         error = new Sound("res/sounds/error.wav");
         input = gameContainer.getInput();
+        this.gameContainer = gameContainer;
+        this.stateBasedGame = stateBasedGame;
     }
 
     @Override
@@ -83,6 +92,20 @@ public class MainMenuState extends BasicGameState {
             case (3):
                 menuOptions[5].draw(320 - menuOptions[5].getWidth() / 2, 336);
                 break;
+            case (4):
+                if (LudumDare.MusicOn) {
+                    menuOptions[10].draw(272, 380);
+                } else {
+                    menuOptions[11].draw(272, 380);
+                }
+                break;
+            case (5):
+                if (LudumDare.SoundOn) {
+                    menuOptions[12].draw(336, 380);
+                } else {
+                    menuOptions[13].draw(336, 380);
+                }
+                break;
             default:
                 break;
         }
@@ -98,37 +121,19 @@ public class MainMenuState extends BasicGameState {
         if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
             switch (state) {
                 case (1):
-                    stateBasedGame.enterState(LudumDare.GAMEPLAYSTATE);
-                    select.play();
-                    bgm.stop();
-                    music_started = false;
+                    newGame();
                     break;
                 case (2):
-                    error.play();
+                    continueGame();
                     break;
                 case (3):
-                    gameContainer.exit();
-                    select.play();
+                    exitGame();
                     break;
                 case (4):
-                    if (LudumDare.MusicOn) {
-                        gameContainer.setMusicOn(false);
-                        LudumDare.MusicOn = false;
-                    } else {
-                        gameContainer.setMusicOn(true);
-                        LudumDare.MusicOn = true;
-                        select.play();
-                    }
+                    SetMusic();
                     break;
                 case (5):
-                    if (LudumDare.SoundOn) {
-                        gameContainer.setSoundOn(false);
-                        LudumDare.SoundOn = false;
-                    } else {
-                        gameContainer.setSoundOn(true);
-                        LudumDare.SoundOn = true;
-                        select.play();
-                    }
+                    SetSound();
                     break;
                 default:
                     break;
@@ -150,4 +155,155 @@ public class MainMenuState extends BasicGameState {
             state = 5;
         }
     }
+
+    public void keyPressed(int i, char c) {
+        if ((i == Input.KEY_F5)) {
+            if (LudumDare.MusicOn) {
+                LudumDare.MusicOn = false;
+                gameContainer.setMusicOn(false);
+            } else {
+                LudumDare.MusicOn = true;
+                gameContainer.setMusicOn(true);
+            }
+        }
+        if ((i == Input.KEY_F6)) {
+            if (LudumDare.SoundOn) {
+                LudumDare.SoundOn = false;
+                gameContainer.setSoundOn(false);
+            } else {
+                LudumDare.SoundOn = true;
+                gameContainer.setSoundOn(true);
+            }
+        }
+        if ((i == Input.KEY_DOWN)) {
+            switch (state) {
+                case (1):
+                    state++;
+                    break;
+                case (2):
+                    state++;
+                    break;
+                case (3):
+                    state++;
+                    break;
+                case (4):
+                    state++;
+                    break;
+                case (5):
+                    state--;
+                    break;
+            }
+        }
+        if ((i == Input.KEY_LEFT)) {
+            switch (state) {
+                case (4):
+                    state++;
+                    break;
+                case (5):
+                    state--;
+                    break;
+            }
+        }
+        if ((i == Input.KEY_RIGHT)) {
+            switch (state) {
+                case (4):
+                    state++;
+                    break;
+                case (5):
+                    state--;
+                    break;
+            }
+        }
+        if ((i == Input.KEY_UP)) {
+            switch (state) {
+                case (1):
+                    break;
+                case (2):
+                    state--;
+                    break;
+                case (3):
+                    state--;
+                    break;
+                case (4):
+                    state = 3;
+                    break;
+                case (5):
+                    state = 3;
+                    break;
+            }
+        }
+        if ((i == Input.KEY_ENTER)) {
+            switch (state) {
+                case (1):
+                    newGame();
+                    break;
+                case (2):
+                    continueGame();
+                    break;
+                case (3):
+                    exitGame();
+                    break;
+                case (4):
+                    SetMusic();
+                    break;
+                case (5):
+                    SetSound();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void newGame() {
+        try {
+            Level1.reinit();
+        } catch (SlickException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        stateBasedGame.enterState(LudumDare.GAMEPLAYSTATE);
+        select.play();
+        bgm.stop();
+        music_started = false;
+        first_try = false;
+    }
+
+    private void exitGame() {
+        gameContainer.exit();
+        select.play();
+    }
+
+    private void SetMusic() {
+        if (LudumDare.MusicOn) {
+            gameContainer.setMusicOn(false);
+            LudumDare.MusicOn = false;
+        } else {
+            gameContainer.setMusicOn(true);
+            LudumDare.MusicOn = true;
+            select.play();
+        }
+    }
+
+    private void SetSound() {
+        if (LudumDare.SoundOn) {
+            gameContainer.setSoundOn(false);
+            LudumDare.SoundOn = false;
+        } else {
+            gameContainer.setSoundOn(true);
+            LudumDare.SoundOn = true;
+            select.play();
+        }
+    }
+
+    private void continueGame() {
+        if (first_try) {
+            error.play();
+        } else {
+            stateBasedGame.enterState(LudumDare.GAMEPLAYSTATE);
+            select.play();
+            bgm.stop();
+            music_started = false;
+        }
+    }
+
 }

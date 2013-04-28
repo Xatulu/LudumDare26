@@ -24,17 +24,17 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
     private final Random random = new Random(System.currentTimeMillis());
     public Level level1;
     private int stateID = 1;
-    private int offsetX = 0;
-    private int offsetY = 0;
+    private static int offsetX = 0;
+    private static int offsetY = 0;
     private boolean music_playing = false;
     private boolean left, right, up;
     private Music[] bgm = null;
     private int current_song;
     private Sound jump = null;
-    private Player player = null;
+    private static Player player = null;
     private Image controls;
-    private Input input;
-    private GameContainer gameContainer;
+    private static Input input;
+    private static GameContainer gameContainer;
     private StateBasedGame stateBasedGame;
 
     public Level1() {
@@ -61,9 +61,11 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
         jump = new Sound("res/sounds/jump.wav");
         level1 = new Level(new TiledMap("res/graphics/level1.tmx"));
         input = gameContainer.getInput();
+        this.gameContainer = gameContainer;
+        this.stateBasedGame = stateBasedGame;
     }
 
-    public void reinit() throws SlickException {
+    public static void reinit() throws SlickException {
         SpriteSheet sheet = new SpriteSheet("res/graphics/SpriteSheet.png", 32, 32);
         player = new Player(96, 255, sheet.getSprite(0, 0), sheet.getSprite(1, 0), new Animation(new Image[]{sheet.getSprite(0, 0), sheet.getSprite(2, 0)}, 250), new Animation(new Image[]{sheet.getSprite(1, 0), sheet.getSprite(3, 0)}, 250));
         input = gameContainer.getInput();
@@ -120,8 +122,6 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
             jumpheight = 0;
         }
         updateCamera();
-        this.gameContainer = gameContainer;
-        this.stateBasedGame = stateBasedGame;
     }
 
     private void updateCamera() {
@@ -193,11 +193,6 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
             }
         }
         if ((i == Input.KEY_F2)) {
-            try {
-                reinit();
-            } catch (SlickException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
             stateBasedGame.enterState(LudumDare.MAINMENUSTATE);
             bgm[current_song].stop();
             music_playing = false;
