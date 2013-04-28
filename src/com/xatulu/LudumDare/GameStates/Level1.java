@@ -7,6 +7,7 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.util.Pauseable;
 
 import java.util.Random;
 
@@ -15,7 +16,7 @@ import java.util.Random;
  * Date: 27.04.13
  * Time: 05:06
  */
-public class Level1 extends BasicGameState implements KeyListener {
+public class Level1 extends BasicGameState implements KeyListener, Pauseable {
 
     private final Level level = null;
     private int stateID = 1;
@@ -30,6 +31,7 @@ public class Level1 extends BasicGameState implements KeyListener {
     private final Random random = new Random(System.currentTimeMillis());
 
     private Music[] bgm = null;
+    private int current_song;
 
     private Sound jump = null;
 
@@ -146,6 +148,17 @@ public class Level1 extends BasicGameState implements KeyListener {
             player.setMoving(true);
             player.setInAir(true);
         }
+        if ((i == Input.KEY_ESCAPE)) {
+            if (isRenderPaused() || isUpdatePaused()) {
+                unpauseRender();
+                unpauseUpdate();
+                bgm[current_song].resume();
+            } else {
+                pauseRender();
+                pauseUpdate();
+                bgm[current_song].pause();
+            }
+        }
     }
 
     @Override
@@ -166,7 +179,8 @@ public class Level1 extends BasicGameState implements KeyListener {
 
     private void startMusic() {
         if (!music_playing) {
-            bgm[random.nextInt(bgm.length - 1)].loop();
+            current_song = random.nextInt(bgm.length - 1);
+            bgm[current_song].loop();
             music_playing = true;
         }
     }
