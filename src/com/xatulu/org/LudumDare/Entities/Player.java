@@ -18,6 +18,7 @@ public class Player {
     private boolean moving = false;
     private boolean inAir = false;
 
+    int moveymax = 96;
 
 
     public Image right;
@@ -80,6 +81,7 @@ public class Player {
         this.setX((int) (this.getX() + i * 0.2));
 
     }
+
     public boolean isInAir() {
         return inAir;
     }
@@ -88,11 +90,11 @@ public class Player {
         this.inAir = inAir;
     }
 
-    public boolean move(float dx, float dy, int offsetx, int offsety){
+    public boolean move(float dx, float dy, int offsetx, int offsety) {
         float nx = this.x + dx;
         float ny = this.y + dy;
 
-        if (validLocation(nx, ny, offsetx, offsety)){
+        if (validLocation(nx, ny, offsetx, offsety)) {
             this.x = nx;
             this.y = ny;
 
@@ -101,67 +103,75 @@ public class Player {
         return false;
     }
 
-    public boolean validLocation(float nx, float ny, int offsetx, int offsety){
-        if (isBlocked(nx - offsetx + 16, ny - offsety + 0)){
+    public boolean validLocation(float nx, float ny, int offsetx, int offsety) {
+        if (isBlocked(nx - offsetx + 16, ny - offsety + 0)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 17, ny - offsety + 0)){
+        if (isBlocked(nx - offsetx + 17, ny - offsety + 0)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 12, ny - offsety + 2)){
+        if (isBlocked(nx - offsetx + 12, ny - offsety + 2)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 21, ny - offsety + 2)){
+        if (isBlocked(nx - offsetx + 21, ny - offsety + 2)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 9, ny - offsety + 5)){
+        if (isBlocked(nx - offsetx + 9, ny - offsety + 5)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 24, ny - offsety + 5)){
+        if (isBlocked(nx - offsetx + 24, ny - offsety + 5)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 7, ny - offsety + 10)){
+        if (isBlocked(nx - offsetx + 9, ny - offsety + 10)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 26, ny - offsety + 10)){
+        if (isBlocked(nx - offsetx + 24, ny - offsety + 10)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 7, ny - offsety + 16)){
+        if (isBlocked(nx - offsetx + 7, ny - offsety + 16)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 26, ny - offsety + 16)){
+        if (isBlocked(nx - offsetx + 26, ny - offsety + 16)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 26, ny - offsety + 22)){
+        if (isBlocked(nx - offsetx + 24, ny - offsety + 22)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 7, ny - offsety + 22)){
+        if (isBlocked(nx - offsetx + 9, ny - offsety + 22)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 8, ny - offsety + 26)){
+        if (isBlocked(nx - offsetx + 8, ny - offsety + 26)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 25, ny - offsety + 26)){
+        if (isBlocked(nx - offsetx + 25, ny - offsety + 26)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 10, ny - offsety + 29)){
+        if (isBlocked(nx - offsetx + 10, ny - offsety + 29)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 23, ny - offsety + 29)){
+        if (isBlocked(nx - offsetx + 23, ny - offsety + 29)) {
             return false;
         }
         if (isBlocked(nx - offsetx + 12, ny - offsety + 32)) {
-            setInAir(false);
+            this.setInAir(false);
             return false;
         }
         if (isBlocked(nx - offsetx + 21, ny - offsety + 32)) {
-            setInAir(false);
+            this.setInAir(false);
             return false;
+        }
+        if (isBlocked(nx - offsetx + 12, ny - offsety + 36)) {
+            this.setInAir(false);
+            return true;
+        }
+        if (isBlocked(nx - offsetx + 21, ny - offsety + 36)) {
+            this.setInAir(false);
+            return true;
         }
         return true;
     }
 
     public boolean isBlocked(float x, float y) {
-        return GameplayState.blocked[(int)x/GameplayState.SIZE][(int)y/GameplayState.SIZE] == true;
+        return GameplayState.blocked[(int) x / GameplayState.SIZE][(int) y / GameplayState.SIZE] == true;
     }
 }

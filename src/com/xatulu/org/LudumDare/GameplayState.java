@@ -17,16 +17,20 @@ import java.util.Random;
 public class GameplayState extends BasicGameState implements KeyListener {
 
     private int stateID = 1;
-    private int elapsedTime = 0, jumptimer = 0;
+    public int elapsedTime = 0;
+    public static int jumpheight = 0;
+    public static int jumptimer = 0;
     public int offsetX = 0;
     int music_track = 0;
     public int offsetY = 0;
     boolean music_playing = false;
     private TiledMap level1;
     public static boolean[][] blocked;
+    public static boolean saved = false;
     private boolean left, right, up;
     private boolean down = true;
     public static final int SIZE = 32;
+
     Random random = new Random(System.currentTimeMillis());
 
     Music[] bgm = null;
@@ -93,6 +97,7 @@ public class GameplayState extends BasicGameState implements KeyListener {
         graphics.setBackground(Color.white);
         graphics.setColor(Color.black);
         level1.render(0 + offsetX, 0 + offsetY, 1);
+        level1.render(0 + offsetX, 0 + offsetY, 2);
 
         if (player.isMoving() && player.getDir() == 1) {
             graphics.drawAnimation(player.walk_r, player.getX(), player.getY());
@@ -107,12 +112,16 @@ public class GameplayState extends BasicGameState implements KeyListener {
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
+        Input input = gameContainer.getInput();
         elapsedTime += i;
         startMusic();
         switch (currentState) {
             case LEVEL1_STATE:
                 float dx = 0;
                 float dy = 0;
+                if (jumpheight<-96){
+                    up=false;
+                }
                 if (left) {
                     dx -= 1;
                 }
@@ -121,12 +130,17 @@ public class GameplayState extends BasicGameState implements KeyListener {
                 }
                 if (up) {
                     dy -= 3;
-                    player.setInAir(true);
                 }
                 if ((dx != 0) || (dy != 0)) {
-                    player.move(dx * i * 0.3f, dy * i * 0.3f, offsetX, offsetY);
+                    player.move(dx * i * 0.4f, dy * i * 0.4f, offsetX, offsetY);
+                    jumpheight+=dy * i * 0.4f;
                 }
-                player.move(0, i * 0.3f, offsetX, offsetY);
+                if (player.validLocation(player.getX(), player.getY() + i * 0.4f, offsetX, offsetY)) {
+                    player.setY((int) ((double) player.getY() + i * 0.4));
+                }
+                if (!up) {
+                    jumpheight = 0;
+                }
                 updateCamera();
             case EXIT_STATE:
                 break;
@@ -134,19 +148,19 @@ public class GameplayState extends BasicGameState implements KeyListener {
     }
 
     private void updateCamera() {
-        if (LudumDare.WIDTH - player.getX() < 96){
+        if (LudumDare.WIDTH - player.getX() < 96) {
             offsetX -= 96 - (LudumDare.WIDTH - player.getX());
-            player.setX(LudumDare.WIDTH-96);
+            player.setX(LudumDare.WIDTH - 96);
         }
-        if (player.getX() < 96){
+        if (player.getX() < 96) {
             offsetX += 96 - player.getX();
             player.setX(96);
         }
-        if (LudumDare.HEIGHT - player.getY() < 96){
+        if (LudumDare.HEIGHT - player.getY() < 96) {
             offsetY -= 96 - (LudumDare.HEIGHT - player.getY());
-            player.setY(LudumDare.HEIGHT-96);
+            player.setY(LudumDare.HEIGHT - 96);
         }
-        if (player.getY() < 96){
+        if (player.getY() < 96) {
             offsetY += 96 - player.getY();
             player.setY(96);
         }
@@ -164,9 +178,11 @@ public class GameplayState extends BasicGameState implements KeyListener {
             player.setMoving(true);
             player.setDir(1);
         }
-        if ((i == Input.KEY_UP)) {
+        if ((i == Input.KEY_UP) && !player.isInAir()) {
             up = true;
+            jump.play();
             player.setMoving(true);
+            player.setInAir(true);
         }
     }
 
