@@ -1,7 +1,6 @@
 package com.xatulu.LudumDare;
 
 import com.xatulu.LudumDare.Entities.Player;
-import com.xatulu.LudumDare.Intro.Text;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -113,39 +112,33 @@ public class GameplayState extends BasicGameState implements KeyListener {
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-        Input input = gameContainer.getInput();
         elapsedTime += i;
         startMusic();
-        switch (currentState) {
-            case LEVEL1_STATE:
-                float dx = 0;
-                float dy = 0;
-                if (jumpheight<-96){
-                    up=false;
-                }
-                if (left) {
-                    dx -= 1;
-                }
-                if (right) {
-                    dx += 1;
-                }
-                if (up) {
-                    dy -= 3;
-                }
-                if ((dx != 0) || (dy != 0)) {
-                    player.move(dx * i * 0.4f, dy * i * 0.4f, offsetX, offsetY);
-                    jumpheight+=dy * i * 0.4f;
-                }
-                if (player.validLocation(player.getX(), player.getY() + i * 0.4f, offsetX, offsetY)) {
-                    player.setY((int) ((double) player.getY() + i * 0.4));
-                }
-                if (!up) {
-                    jumpheight = 0;
-                }
-                updateCamera();
-            case EXIT_STATE:
-                break;
+        float dx = 0;
+        float dy = 0;
+        if (jumpheight < -96) {
+            up = false;
         }
+        if (left) {
+            dx -= 1;
+        }
+        if (right) {
+            dx += 1;
+        }
+        if (up) {
+            dy -= 3;
+        }
+        if ((dx != 0) || (dy != 0)) {
+            player.move(dx * i * 0.4f, dy * i * 0.4f, offsetX, offsetY);
+            jumpheight += dy * i * 0.4f;
+        }
+        if (player.validLocation(player.getX(), player.getY() + i * 0.4f, offsetX, offsetY)) {
+            player.setY((int) ((double) player.getY() + i * 0.4));
+        }
+        if (!up) {
+            jumpheight = 0;
+        }
+        updateCamera();
     }
 
     private void updateCamera() {
