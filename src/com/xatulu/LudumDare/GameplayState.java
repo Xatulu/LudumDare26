@@ -72,7 +72,8 @@ public class GameplayState extends BasicGameState implements KeyListener {
                 new Music("res/level2.ogg"),
                 new Music("res/level3.ogg"),
                 new Music("res/level4.ogg"),
-                new Music("res/level5.ogg")
+                new Music("res/level5.ogg"),
+                new Music("res/bossfight.ogg")
         };
         level1 = new TiledMap("res/level1.tmx");
         jump = new Sound("res/jump.wav");
