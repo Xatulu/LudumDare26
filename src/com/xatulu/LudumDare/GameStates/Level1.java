@@ -1,6 +1,7 @@
 package com.xatulu.LudumDare.GameStates;
 
 import com.xatulu.LudumDare.Entities.Player;
+import com.xatulu.LudumDare.Levels.Level;
 import com.xatulu.LudumDare.LudumDare;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
@@ -14,16 +15,16 @@ import java.util.Random;
  * Date: 27.04.13
  * Time: 05:06
  */
-public class GameplayState extends BasicGameState implements KeyListener {
+public class Level1 extends BasicGameState implements KeyListener {
 
+    private final Level level = null;
     private int stateID = 1;
     private static int jumpheight = 0;
     private int offsetX = 0;
     private int offsetY = 0;
     private boolean music_playing = false;
-    private TiledMap level1;
-    public static boolean[][] blocked;
     private boolean left, right, up;
+    public Level level1;
     public static final int SIZE = 32;
 
     private final Random random = new Random(System.currentTimeMillis());
@@ -34,7 +35,7 @@ public class GameplayState extends BasicGameState implements KeyListener {
 
     private Player player = null;
 
-    public GameplayState() {
+    public Level1() {
         this.stateID = LudumDare.GAMEPLAYSTATE;
     }
 
@@ -55,30 +56,16 @@ public class GameplayState extends BasicGameState implements KeyListener {
                 new Music("res/music/level5.ogg"),
                 new Music("res/music/level6.ogg")
         };
-        level1 = new TiledMap("res/graphics/level1.tmx");
         jump = new Sound("res/sounds/jump.wav");
-
-        buildCollision();
-    }
-
-    private void buildCollision() {
-        blocked = new boolean[level1.getWidth()][level1.getHeight()];
-        for (int xAxis = 0; xAxis < level1.getWidth(); xAxis++) {
-            for (int yAxis = 0; yAxis < level1.getHeight(); yAxis++) {
-                int tileID = level1.getTileId(xAxis, yAxis, 0);
-                if (tileID == 7) {
-                    blocked[xAxis][yAxis] = true;
-                }
-            }
-        }
+        level1 = new Level(new TiledMap("res/graphics/level1.tmx"));
     }
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
         graphics.setBackground(Color.white);
         graphics.setColor(Color.black);
-        level1.render(offsetX, offsetY, 1);
-        level1.render(offsetX, offsetY, 2);
+        level1.getMap().render(offsetX, offsetY, 1);
+        level1.getMap().render(offsetX, offsetY, 2);
 
         if (player.isMoving() && player.getDir() == 1) {
             graphics.drawAnimation(player.walk_r, player.getX(), player.getY());
@@ -109,10 +96,10 @@ public class GameplayState extends BasicGameState implements KeyListener {
             dy -= 3;
         }
         if ((dx != 0) || (dy != 0)) {
-            player.move(dx * i * 0.4f, dy * i * 0.4f, offsetX, offsetY);
+            player.move(dx * i * 0.4f, dy * i * 0.4f, offsetX, offsetY, this.level);
             jumpheight += dy * i * 0.4f;
         }
-        if (player.validLocation(player.getX(), player.getY() + i * 0.4f, offsetX, offsetY)) {
+        if (player.validLocation(player.getX(), player.getY() + i * 0.4f, offsetX, offsetY, this.level)) {
             player.setY((int) ((double) player.getY() + i * 0.4));
         }
         if (!up) {

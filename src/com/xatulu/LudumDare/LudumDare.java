@@ -1,6 +1,6 @@
 package com.xatulu.LudumDare;
 
-import com.xatulu.LudumDare.GameStates.GameplayState;
+import com.xatulu.LudumDare.GameStates.Level1;
 import com.xatulu.LudumDare.GameStates.MainMenuState;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -23,7 +23,7 @@ public class LudumDare extends StateBasedGame {
     private LudumDare() {
         super("Minimalism");
         this.addState(new MainMenuState());
-        this.addState(new GameplayState());
+        this.addState(new Level1());
         this.enterState(GAMEPLAYSTATE);
     }
 

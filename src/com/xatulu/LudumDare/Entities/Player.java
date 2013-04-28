@@ -1,6 +1,7 @@
 package com.xatulu.LudumDare.Entities;
 
-import com.xatulu.LudumDare.GameStates.GameplayState;
+import com.xatulu.LudumDare.GameStates.Level1;
+import com.xatulu.LudumDare.Levels.Level;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
@@ -81,38 +82,38 @@ public class Player {
         this.inAir = inAir;
     }
 
-    public void move(float dx, float dy, int offsetx, int offsety) {
+    public void move(float dx, float dy, int offsetx, int offsety, Level level) {
         float nx = this.x + dx;
         float ny = this.y + dy;
 
-        if (validLocation(nx, ny, offsetx, offsety)) {
+        if (validLocation(nx, ny, offsetx, offsety, level)) {
             this.x = nx;
             this.y = ny;
         }
     }
 
-    public boolean validLocation(float nx, float ny, int offsetx, int offsety) {
-        if (isBlocked(nx - offsetx + 16, ny - offsety)) {
+    public boolean validLocation(float nx, float ny, int offsetx, int offsety, Level level) {
+        if (isBlocked(nx - offsetx + 16, ny - offsety, level)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 26, ny - offsety + 16)) {
+        if (isBlocked(nx - offsetx + 26, ny - offsety + 16, level)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 10, ny - offsety + 16)) {
+        if (isBlocked(nx - offsetx + 10, ny - offsety + 16, level)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 16, ny - offsety + 32)) {
+        if (isBlocked(nx - offsetx + 16, ny - offsety + 32, level)) {
             this.setInAir(false);
             return false;
         }
-        if (isBlocked(nx - offsetx + 16, ny - offsety + 40)) {
+        if (isBlocked(nx - offsetx + 16, ny - offsety + 40, level)) {
             this.setInAir(false);
             return true;
         }
         return true;
     }
 
-    boolean isBlocked(float x, float y) {
-        return GameplayState.blocked[(int) x / GameplayState.SIZE][(int) y / GameplayState.SIZE];
+    boolean isBlocked(float x, float y, Level level) {
+        return level.blocked[(int) x / Level1.SIZE][(int) y / Level1.SIZE];
     }
 }
