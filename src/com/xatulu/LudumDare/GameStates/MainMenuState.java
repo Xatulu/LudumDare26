@@ -196,6 +196,9 @@ public class MainMenuState extends BasicGameState implements KeyListener, MouseL
                 case (5):
                     state--;
                     break;
+                default:
+                    state++;
+                    break;
             }
         }
         if ((i == Input.KEY_LEFT)) {
@@ -233,6 +236,9 @@ public class MainMenuState extends BasicGameState implements KeyListener, MouseL
                     break;
                 case (5):
                     state = 3;
+                    break;
+                default:
+                    state--;
                     break;
             }
         }

@@ -40,6 +40,8 @@ public class LudumDare extends StateBasedGame {
         AppGameContainer app = new AppGameContainer(new LudumDare());
         app.setDisplayMode(WIDTH, HEIGHT, false);
         app.setVSync(true);
+        app.setMinimumLogicUpdateInterval(10);
+        app.setMaximumLogicUpdateInterval(10);
         app.setShowFPS(false);
         app.start();
     }
@@ -52,5 +54,3 @@ public class LudumDare extends StateBasedGame {
         this.getState(DUMMYSTATE).init(gameContainer, this);
     }
 }
-
-//TODO Spiel fertigzeichnen

@@ -106,15 +106,17 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
             dx += 1;
         }
         if (up) {
-            dy -= 3;
+            dy -= 1;
         }
         if ((dx != 0) || (dy != 0)) {
-            player.move(dx * i * 0.4f, dy * i * 0.4f, offsetX, offsetY, this.level);
-            jumpheight += dy * i * 0.4f;
+            player.move(dx * i * 0.2f, dy * i * 0.5f, offsetX, offsetY, this.level);
+            jumpheight += dy * i * 0.3f;
         }
-        if (player.validLocation(player.getX(), player.getY() + i * 0.4f, offsetX, offsetY, this.level)) {
-            player.setY((int) ((double) player.getY() + i * 0.4));
+        if (player.validLocation(player.getX(), player.getY() + i * 0.6f, offsetX, offsetY, this.level)) {
+            player.setY((int) ((double) player.getY() + i * 0.275));
         }
+
+
         if (!up) {
             jumpheight = 0;
         }
@@ -127,21 +129,21 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
     }
 
     private void updateCamera() {
-        if (LudumDare.WIDTH - player.getX() < 96) {
-            offsetX -= 96 - (LudumDare.WIDTH - player.getX());
-            player.setX(LudumDare.WIDTH - 96);
+        if (LudumDare.WIDTH - player.getX() < 256) {
+            offsetX -= 256 - (LudumDare.WIDTH - player.getX());
+            player.setX(LudumDare.WIDTH - 256);
         }
-        if (player.getX() < 96) {
-            offsetX += 96 - player.getX();
-            player.setX(96);
+        if (player.getX() < 256) {
+            offsetX += 256 - player.getX();
+            player.setX(256);
         }
-        if (LudumDare.HEIGHT - player.getY() < 96) {
-            offsetY -= 96 - (LudumDare.HEIGHT - player.getY());
-            player.setY(LudumDare.HEIGHT - 96);
+        if (LudumDare.HEIGHT - player.getY() < 164) {
+            offsetY -= 164 - (LudumDare.HEIGHT - player.getY());
+            player.setY(LudumDare.HEIGHT - 164);
         }
-        if (player.getY() < 96) {
-            offsetY += 96 - player.getY();
-            player.setY(96);
+        if (player.getY() < 164) {
+            offsetY += 164 - player.getY();
+            player.setY(164);
         }
     }
 

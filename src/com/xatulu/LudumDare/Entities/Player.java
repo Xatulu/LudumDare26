@@ -96,16 +96,16 @@ public class Player {
     }
 
     public boolean validLocation(float nx, float ny, int offsetx, int offsety, Level level) {
-        if (isBlocked(nx - offsetx + 15, ny - offsety + 5, level)) {
+        if (isBlocked(nx - offsetx + 8, ny - offsety + 8, level)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 25, ny - offsety + 15, level)) {
+        if (isBlocked(nx - offsetx + 24, ny - offsety + 8, level)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 9, ny - offsety + 15, level)) {
+        if (isBlocked(nx - offsetx + 8, ny - offsety + 24, level)) {
             return false;
         }
-        if (isBlocked(nx - offsetx + 15, ny - offsety + 31, level)) {
+        if (isBlocked(nx - offsetx + 24, ny - offsety + 24, level)) {
             this.setInAir(false);
             return false;
         }
