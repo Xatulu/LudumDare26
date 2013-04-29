@@ -1,9 +1,9 @@
-package com.xatulu.LudumDare;
+package com.xatulu.game;
 
-import com.xatulu.LudumDare.GameStates.Dummy;
-import com.xatulu.LudumDare.GameStates.Goal;
-import com.xatulu.LudumDare.GameStates.Level1;
-import com.xatulu.LudumDare.GameStates.MainMenuState;
+import com.xatulu.game.GameStates.Dummy;
+import com.xatulu.game.GameStates.Goal;
+import com.xatulu.game.GameStates.Level1;
+import com.xatulu.game.GameStates.MainMenuState;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;

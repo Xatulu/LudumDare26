@@ -1,7 +1,7 @@
-package com.xatulu.LudumDare.Entities;
+package com.xatulu.game.Entities;
 
-import com.xatulu.LudumDare.GameStates.Level1;
-import com.xatulu.LudumDare.Levels.Level;
+import com.xatulu.game.GameStates.Level1;
+import com.xatulu.game.Levels.Level;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 

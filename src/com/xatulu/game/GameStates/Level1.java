@@ -1,8 +1,8 @@
-package com.xatulu.LudumDare.GameStates;
+package com.xatulu.game.GameStates;
 
-import com.xatulu.LudumDare.Entities.Player;
-import com.xatulu.LudumDare.Levels.Level;
-import com.xatulu.LudumDare.LudumDare;
+import com.xatulu.game.Entities.Player;
+import com.xatulu.game.Levels.Level;
+import com.xatulu.game.LudumDare;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;

@@ -1,6 +1,6 @@
-package com.xatulu.LudumDare.GameStates;
+package com.xatulu.game.GameStates;
 
-import com.xatulu.LudumDare.LudumDare;
+import com.xatulu.game.LudumDare;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

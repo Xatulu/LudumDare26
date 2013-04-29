@@ -1,4 +1,4 @@
-package com.xatulu.LudumDare.Levels;
+package com.xatulu.game.Levels;
 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
