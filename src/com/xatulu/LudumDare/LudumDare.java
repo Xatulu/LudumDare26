@@ -27,7 +27,7 @@ public class LudumDare extends StateBasedGame {
     public static boolean MusicOn = true;
 
 
-    private LudumDare() {
+    public LudumDare() {
         super("Minimaljump");
         this.addState(new MainMenuState());
         this.addState(new Level1());
@@ -39,15 +39,16 @@ public class LudumDare extends StateBasedGame {
     public static void main(String[] args) throws SlickException {
         AppGameContainer app = new AppGameContainer(new LudumDare());
         app.setDisplayMode(WIDTH, HEIGHT, false);
-        app.setVSync(true);
-        app.setMinimumLogicUpdateInterval(10);
-        app.setMaximumLogicUpdateInterval(10);
-        app.setShowFPS(false);
         app.start();
     }
 
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException {
+        gameContainer.setShowFPS(false);
+        gameContainer.setVSync(true);
+        gameContainer.setMinimumLogicUpdateInterval(10);
+        gameContainer.setMaximumLogicUpdateInterval(10);
+
         this.getState(GOALSTATE).init(gameContainer, this);
         this.getState(MAINMENUSTATE).init(gameContainer, this);
         this.getState(GAMEPLAYSTATE).init(gameContainer, this);
