@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="slick">
+    <CLASSES>
+      <root url="jar://C:/ld/lwjgl-2.9.0/jar/lwjgl_util.jar!/" />
+      <root url="jar://C:/ld/lwjgl-2.9.0/jar/jinput.jar!/" />
+      <root url="jar://C:/ld/slick.jar!/" />
+      <root url="jar://C:/LudumDare26/Applet/jogg.jar!/" />
+      <root url="jar://C:/LudumDare26/Applet/jorbis.jar!/" />
+      <root url="jar://C:/ld/lwjgl-2.9.0/jar/lwjgl.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

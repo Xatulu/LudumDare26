@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="LudumDare.jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/LudumDare_jar</output-path>
+    <root id="archive" name="LudumDare.jar.jar">
+      <element id="module-output" name="LudumDare" />
+    </root>
+  </artifact>
+</component>
