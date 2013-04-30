@@ -1,6 +1,6 @@
 package com.xatulu.game.GameStates;
 
-import com.xatulu.game.LudumDare;
+import com.xatulu.game.MinimalJump;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -31,10 +31,10 @@ public class Goal extends BasicGameState implements KeyListener {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        bgm = new Music("res/music/winning.ogg");
-        select = new Sound("res/sounds/select.wav");
-        title = new Image("res/graphics/title.png");
-        credits = new Image("res/graphics/end.png");
+        bgm = new Music("music/winning.ogg");
+        select = new Sound("sounds/select.wav");
+        title = new Image("graphics/title.png");
+        credits = new Image("graphics/end.png");
         this.gameContainer = gameContainer;
         this.stateBasedGame = stateBasedGame;
     }
@@ -44,7 +44,7 @@ public class Goal extends BasicGameState implements KeyListener {
         graphics.setBackground(Color.white);
         MainMenuState.level.getMap().render(0, 0);
         title.draw(128, 48);
-        credits.draw(LudumDare.WIDTH / 2 - credits.getWidth() / 2 * scale, 180, scale);
+        credits.draw(MinimalJump.WIDTH / 2 - credits.getWidth() / 2 * scale, 180, scale);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class Goal extends BasicGameState implements KeyListener {
         }
         if ((i == Input.KEY_ENTER)) {
             select.play();
-            stateBasedGame.enterState(LudumDare.MAINMENUSTATE);
+            stateBasedGame.enterState(MinimalJump.MAINMENUSTATE);
             bgm.stop();
             music_started = false;
         }

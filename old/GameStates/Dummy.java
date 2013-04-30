@@ -1,6 +1,6 @@
 package com.xatulu.game.GameStates;
 
-import com.xatulu.game.LudumDare;
+import com.xatulu.game.MinimalJump;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -32,6 +32,5 @@ public class Dummy extends BasicGameState {
 
     @Override
     public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
-        stateBasedGame.enterState(LudumDare.GAMEPLAYSTATE);
     }
 }

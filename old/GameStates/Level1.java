@@ -2,7 +2,7 @@ package com.xatulu.game.GameStates;
 
 import com.xatulu.game.Entities.Player;
 import com.xatulu.game.Levels.Level;
-import com.xatulu.game.LudumDare;
+import com.xatulu.game.MinimalJump;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -37,7 +37,7 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
     private static StateBasedGame stateBasedGame;
 
     public Level1() {
-        this.stateID = LudumDare.GAMEPLAYSTATE;
+        this.stateID = MinimalJump.GAMEPLAYSTATE;
     }
 
     @Override
@@ -47,24 +47,24 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        SpriteSheet sheet = new SpriteSheet("res/graphics/SpriteSheet.png", 32, 32);
+        SpriteSheet sheet = new SpriteSheet("graphics/SpriteSheet.png", 32, 32);
         player = new Player(96, 255, sheet.getSprite(0, 10), sheet.getSprite(0, 10).getFlippedCopy(true, false), new Animation(new Image[]{sheet.getSprite(0, 10), sheet.getSprite(1, 10), sheet.getSprite(2, 10), sheet.getSprite(3, 10), sheet.getSprite(4, 10), sheet.getSprite(5, 10), sheet.getSprite(6, 10), sheet.getSprite(7, 10)}, 250), new Animation(new Image[]{sheet.getSprite(0, 10).getFlippedCopy(true, false), sheet.getSprite(1, 10).getFlippedCopy(true, false), sheet.getSprite(2, 10).getFlippedCopy(true, false), sheet.getSprite(3, 10).getFlippedCopy(true, false), sheet.getSprite(4, 10).getFlippedCopy(true, false), sheet.getSprite(5, 10).getFlippedCopy(true, false), sheet.getSprite(6, 10).getFlippedCopy(true, false), sheet.getSprite(7, 10).getFlippedCopy(true, false)}, 250));
         bgm = new Music[]{
-                new Music("res/music/level2.ogg"),
-                new Music("res/music/level3.ogg"),
-                new Music("res/music/level4.ogg"),
-                new Music("res/music/level5.ogg"),
-                new Music("res/music/level6.ogg")
+                new Music("music/level2.ogg"),
+                new Music("music/level3.ogg"),
+                new Music("music/level4.ogg"),
+                new Music("music/level5.ogg"),
+                new Music("music/level6.ogg")
         };
-        controls = new Image("res/graphics/controls.png");
-        jump = new Sound("res/sounds/jump.wav");
-        level1 = new Level(new TiledMap("res/graphics/level1.tmx"));
+        controls = new Image("graphics/controls.png");
+        jump = new Sound("sounds/jump.wav");
+        level1 = new Level(new TiledMap("graphics/level1.tmx"));
         Level1.gameContainer = gameContainer;
         Level1.stateBasedGame = stateBasedGame;
     }
 
     public static void reinit() throws SlickException {
-        SpriteSheet sheet = new SpriteSheet("res/graphics/SpriteSheet.png", 32, 32);
+        SpriteSheet sheet = new SpriteSheet("graphics/SpriteSheet.png", 32, 32);
         player = new Player(96, 255, sheet.getSprite(0, 10), sheet.getSprite(0, 10).getFlippedCopy(true, false), new Animation(new Image[]{sheet.getSprite(0, 10), sheet.getSprite(1, 10), sheet.getSprite(2, 10), sheet.getSprite(3, 10), sheet.getSprite(4, 10), sheet.getSprite(5, 10), sheet.getSprite(6, 10), sheet.getSprite(7, 10)}, 500), new Animation(new Image[]{sheet.getSprite(0, 10).getFlippedCopy(true, false), sheet.getSprite(1, 10).getFlippedCopy(true, false), sheet.getSprite(2, 10).getFlippedCopy(true, false), sheet.getSprite(3, 10).getFlippedCopy(true, false), sheet.getSprite(4, 10).getFlippedCopy(true, false), sheet.getSprite(5, 10).getFlippedCopy(true, false), sheet.getSprite(6, 10).getFlippedCopy(true, false), sheet.getSprite(7, 10).getFlippedCopy(true, false)}, 500));
         offsetX = 0;
         offsetY = 0;
@@ -122,24 +122,24 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
         }
         updateCamera();
         if (player.isReachedGoal()) {
-            stateBasedGame.enterState(LudumDare.GOALSTATE);
+            stateBasedGame.enterState(MinimalJump.GOALSTATE);
             bgm[current_song].stop();
             music_playing = false;
         }
     }
 
     private void updateCamera() {
-        if (LudumDare.WIDTH - player.getX() < 256) {
-            offsetX -= 256 - (LudumDare.WIDTH - player.getX());
-            player.setX(LudumDare.WIDTH - 256);
+        if (MinimalJump.WIDTH - player.getX() < 256) {
+            offsetX -= 256 - (MinimalJump.WIDTH - player.getX());
+            player.setX(MinimalJump.WIDTH - 256);
         }
         if (player.getX() < 256) {
             offsetX += 256 - player.getX();
             player.setX(256);
         }
-        if (LudumDare.HEIGHT - player.getY() < 164) {
-            offsetY -= 164 - (LudumDare.HEIGHT - player.getY());
-            player.setY(LudumDare.HEIGHT - 164);
+        if (MinimalJump.HEIGHT - player.getY() < 164) {
+            offsetY -= 164 - (MinimalJump.HEIGHT - player.getY());
+            player.setY(MinimalJump.HEIGHT - 164);
         }
         if (player.getY() < 164) {
             offsetY += 164 - player.getY();
@@ -179,25 +179,25 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
             }
         }
         if ((i == Input.KEY_F5)) {
-            if (LudumDare.MusicOn) {
-                LudumDare.MusicOn = false;
+            if (MinimalJump.MusicOn) {
+                MinimalJump.MusicOn = false;
                 gameContainer.setMusicOn(false);
             } else {
-                LudumDare.MusicOn = true;
+                MinimalJump.MusicOn = true;
                 gameContainer.setMusicOn(true);
             }
         }
         if ((i == Input.KEY_F6)) {
-            if (LudumDare.SoundOn) {
-                LudumDare.SoundOn = false;
+            if (MinimalJump.SoundOn) {
+                MinimalJump.SoundOn = false;
                 gameContainer.setSoundOn(false);
             } else {
-                LudumDare.SoundOn = true;
+                MinimalJump.SoundOn = true;
                 gameContainer.setSoundOn(true);
             }
         }
         if ((i == Input.KEY_F2)) {
-            stateBasedGame.enterState(LudumDare.MAINMENUSTATE);
+            stateBasedGame.enterState(MinimalJump.MAINMENUSTATE);
             bgm[current_song].stop();
             music_playing = false;
         }
@@ -207,7 +207,7 @@ public class Level1 extends BasicGameState implements KeyListener, Pauseable {
             } catch (SlickException e) {
                 e.printStackTrace();
             }
-            stateBasedGame.enterState(LudumDare.DUMMYSTATE);
+            stateBasedGame.enterState(MinimalJump.DUMMYSTATE);
         }
     }
 

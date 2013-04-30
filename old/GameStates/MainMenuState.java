@@ -1,8 +1,7 @@
 package com.xatulu.game.GameStates;
 
 import com.xatulu.game.Levels.Level;
-import com.xatulu.game.LudumDare;
-import org.newdawn.slick.*;
+import com.xatulu.game.MinimalJump;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
@@ -30,7 +29,7 @@ public class MainMenuState extends BasicGameState implements KeyListener, MouseL
     private boolean first_try = true;
 
     public MainMenuState() {
-        this.stateID = LudumDare.MAINMENUSTATE;
+        this.stateID = MinimalJump.MAINMENUSTATE;
     }
 
     @Override
@@ -40,27 +39,27 @@ public class MainMenuState extends BasicGameState implements KeyListener, MouseL
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        bgm = new Music("res/music/level1.ogg");
-        level = new Level(new TiledMap("res/graphics/mainmenu.tmx"));
-        title = new Image("res/graphics/title.png");
+        bgm = new Music("music/level1.ogg");
+        level = new Level(new TiledMap("graphics/mainmenu.tmx"));
+        title = new Image("graphics/title.png");
         menuOptions = new Image[]{
-                new Image("res/graphics/menu_options.png").getSubImage(0, 0, 128, 32),
-                new Image("res/graphics/menu_options.png").getSubImage(0, 32, 128, 32),
-                new Image("res/graphics/menu_options.png").getSubImage(0, 64, 128, 32),
-                new Image("res/graphics/menu_options.png").getSubImage(0, 96, 128, 32),
-                new Image("res/graphics/menu_options.png").getSubImage(0, 128, 128, 32),
-                new Image("res/graphics/menu_options.png").getSubImage(0, 160, 128, 32),
-                new Image("res/graphics/menu_options.png").getSubImage(0, 192, 32, 32),
-                new Image("res/graphics/menu_options.png").getSubImage(32, 192, 32, 32),
-                new Image("res/graphics/menu_options.png").getSubImage(64, 192, 32, 32),
-                new Image("res/graphics/menu_options.png").getSubImage(96, 192, 32, 32),
-                new Image("res/graphics/menu_options.png").getSubImage(0, 224, 32, 32),
-                new Image("res/graphics/menu_options.png").getSubImage(32, 224, 32, 32),
-                new Image("res/graphics/menu_options.png").getSubImage(64, 224, 32, 32),
-                new Image("res/graphics/menu_options.png").getSubImage(96, 224, 32, 32)
+                new Image("graphics/menu_options.png").getSubImage(0, 0, 128, 32),
+                new Image("graphics/menu_options.png").getSubImage(0, 32, 128, 32),
+                new Image("graphics/menu_options.png").getSubImage(0, 64, 128, 32),
+                new Image("graphics/menu_options.png").getSubImage(0, 96, 128, 32),
+                new Image("graphics/menu_options.png").getSubImage(0, 128, 128, 32),
+                new Image("graphics/menu_options.png").getSubImage(0, 160, 128, 32),
+                new Image("graphics/menu_options.png").getSubImage(0, 192, 32, 32),
+                new Image("graphics/menu_options.png").getSubImage(32, 192, 32, 32),
+                new Image("graphics/menu_options.png").getSubImage(64, 192, 32, 32),
+                new Image("graphics/menu_options.png").getSubImage(96, 192, 32, 32),
+                new Image("graphics/menu_options.png").getSubImage(0, 224, 32, 32),
+                new Image("graphics/menu_options.png").getSubImage(32, 224, 32, 32),
+                new Image("graphics/menu_options.png").getSubImage(64, 224, 32, 32),
+                new Image("graphics/menu_options.png").getSubImage(96, 224, 32, 32)
         };
-        select = new Sound("res/sounds/select.wav");
-        error = new Sound("res/sounds/error.wav");
+        select = new Sound("sounds/select.wav");
+        error = new Sound("sounds/error.wav");
         input = gameContainer.getInput();
         this.gameContainer = gameContainer;
         this.stateBasedGame = stateBasedGame;
@@ -74,12 +73,12 @@ public class MainMenuState extends BasicGameState implements KeyListener, MouseL
         menuOptions[0].draw(320 - menuOptions[0].getWidth() / 2, 240);
         menuOptions[1].draw(320 - menuOptions[1].getWidth() / 2, 288);
         menuOptions[2].draw(320 - menuOptions[2].getWidth() / 2, 336);
-        if (LudumDare.MusicOn) {
+        if (MinimalJump.MusicOn) {
             menuOptions[6].draw(272, 380);
         } else {
             menuOptions[7].draw(272, 380);
         }
-        if (LudumDare.SoundOn) {
+        if (MinimalJump.SoundOn) {
             menuOptions[8].draw(336, 380);
         } else {
             menuOptions[9].draw(336, 380);
@@ -95,14 +94,14 @@ public class MainMenuState extends BasicGameState implements KeyListener, MouseL
                 menuOptions[5].draw(320 - menuOptions[5].getWidth() / 2, 336);
                 break;
             case (4):
-                if (LudumDare.MusicOn) {
+                if (MinimalJump.MusicOn) {
                     menuOptions[10].draw(272, 380);
                 } else {
                     menuOptions[11].draw(272, 380);
                 }
                 break;
             case (5):
-                if (LudumDare.SoundOn) {
+                if (MinimalJump.SoundOn) {
                     menuOptions[12].draw(336, 380);
                 } else {
                     menuOptions[13].draw(336, 380);
@@ -162,20 +161,20 @@ public class MainMenuState extends BasicGameState implements KeyListener, MouseL
 
     public void keyPressed(int i, char c) {
         if ((i == Input.KEY_F5)) {
-            if (LudumDare.MusicOn) {
-                LudumDare.MusicOn = false;
+            if (MinimalJump.MusicOn) {
+                MinimalJump.MusicOn = false;
                 gameContainer.setMusicOn(false);
             } else {
-                LudumDare.MusicOn = true;
+                MinimalJump.MusicOn = true;
                 gameContainer.setMusicOn(true);
             }
         }
         if ((i == Input.KEY_F6)) {
-            if (LudumDare.SoundOn) {
-                LudumDare.SoundOn = false;
+            if (MinimalJump.SoundOn) {
+                MinimalJump.SoundOn = false;
                 gameContainer.setSoundOn(false);
             } else {
-                LudumDare.SoundOn = true;
+                MinimalJump.SoundOn = true;
                 gameContainer.setSoundOn(true);
             }
         }
@@ -271,7 +270,7 @@ public class MainMenuState extends BasicGameState implements KeyListener, MouseL
         } catch (SlickException e) {
             e.printStackTrace();
         }
-        stateBasedGame.enterState(LudumDare.GAMEPLAYSTATE);
+        stateBasedGame.enterState(MinimalJump.GAMEPLAYSTATE);
         select.play();
         bgm.stop();
         music_started = false;
@@ -284,23 +283,23 @@ public class MainMenuState extends BasicGameState implements KeyListener, MouseL
     }
 
     private void SetMusic() {
-        if (LudumDare.MusicOn) {
+        if (MinimalJump.MusicOn) {
             gameContainer.setMusicOn(false);
-            LudumDare.MusicOn = false;
+            MinimalJump.MusicOn = false;
         } else {
             gameContainer.setMusicOn(true);
-            LudumDare.MusicOn = true;
+            MinimalJump.MusicOn = true;
             select.play();
         }
     }
 
     private void SetSound() {
-        if (LudumDare.SoundOn) {
+        if (MinimalJump.SoundOn) {
             gameContainer.setSoundOn(false);
-            LudumDare.SoundOn = false;
+            MinimalJump.SoundOn = false;
         } else {
             gameContainer.setSoundOn(true);
-            LudumDare.SoundOn = true;
+            MinimalJump.SoundOn = true;
             select.play();
         }
     }
@@ -309,7 +308,7 @@ public class MainMenuState extends BasicGameState implements KeyListener, MouseL
         if (first_try) {
             error.play();
         } else {
-            stateBasedGame.enterState(LudumDare.GAMEPLAYSTATE);
+            stateBasedGame.enterState(MinimalJump.GAMEPLAYSTATE);
             select.play();
             bgm.stop();
             music_started = false;
